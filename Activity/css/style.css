@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: Ancizar Sans-regular;
+    src: url('../fonts/Ancizar Sans-Regular.otf');
+}
+@font-face {
+    font-family: Ancizar Serif-bold;
+    src: url('../fonts/Ancizar Serif-Bold.otf');
+}
+
+body {
+    background-color: #e4e0d9;  /* define un color de fondo para todas las páginas */
+}
+
+.pad {
+    max-width: 1200px;
+    margin: auto;
+	text-align: center;
+	align-content: center;
+    background-color: #b9b5ac;
+    padding: 15%;
+}
