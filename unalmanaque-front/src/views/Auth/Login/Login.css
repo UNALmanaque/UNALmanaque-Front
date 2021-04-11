@@ -1,0 +1,13 @@
+.auth-header{
+  height: 45vh;
+  background-image: url('/img/authbg.jpg');
+  background-size: cover;
+}
+
+.auth-form{
+  margin-top: -150px;
+}
+
+.auth-title{
+  color: #FFF;
+}

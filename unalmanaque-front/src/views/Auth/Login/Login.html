@@ -1,0 +1,28 @@
+<div>
+  <header class="auth-header"></header>
+  <div class="auth-form d-flex flex-column align-items-center">
+    <h1 class="auth-title">Sign In</h1>
+    <div class="card col-6 col-md-4 col-xl-3 p-4">
+      <form @submit.prevent="onSubmit">
+        <input
+          class="col-12 auth-input p-1 mt-2 mb-2"
+          placeholder="Email"
+          v-model="email"
+        />
+        <input
+          class="col-12 auth-input p-1 mt-2 mb-2"
+          placeholder="Password"
+          type="password"
+          v-model="password"
+        />
+        <button @click="login" class="col-6 btn-block btn-primary">
+          Sign in
+        </button>
+      </form>
+      <p>
+        Don't have a account?
+        <router-link to="/register">Create One</router-link>
+      </p>
+    </div>
+  </div>
+</div>
