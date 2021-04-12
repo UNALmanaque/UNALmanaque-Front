@@ -1,6 +1,7 @@
 
 
 import firebase from 'firebase';
+import axios from 'axios';
 import '@/firebase/init'
 export default {
   data() {
@@ -28,6 +29,12 @@ export default {
             this.model.name = ''
             this.model.age = ''
             this.$toast.info(`Registro exitoso`, { position: 'top-right' });
+            axios
+                .post('localhost:8080/register/api/user', {
+                    userName : "usuario",
+                    userEmail : "mail",
+                    userPassword : "123"
+                })
             console.log(user);
           }).catch(err => {
             this.$toast.error(err, { position: 'top-right' });
