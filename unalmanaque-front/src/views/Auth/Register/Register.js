@@ -1,5 +1,4 @@
 
-import { mapActions } from 'vuex';
 
 import firebase from 'firebase';
 import '@/firebase/init'
@@ -15,7 +14,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setToken']),
     register() {
       if (
         this.model.email &&
@@ -29,12 +27,13 @@ export default {
             this.model.password = ''
             this.model.name = ''
             this.model.age = ''
+            this.$toast.info(`Registro exitoso`, { position: 'top-right' });
             console.log(user);
           }).catch(err => {
             this.$toast.error(err, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);
           })
-        
+        }else { 
         this.$toast.error('Please check your input', { position: 'top-right' });
         setTimeout(this.$toast.clear, 3000);
       }
