@@ -1,8 +1,7 @@
-import axios from 'axios';
-import { mapActions } from 'vuex';
 
-import router from '@/router';
 
+import firebase from 'firebase';
+import '@/firebase/init'
 export default {
   data() {
     return {
@@ -15,7 +14,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setToken']),
     register() {
       if (
         this.model.email &&
@@ -23,17 +21,19 @@ export default {
         this.model.name &&
         this.model.age
       ) {
-        axios
-          .post('/register', this.model)
-          .then((res) => {
-            this.setToken(res.data.accessToken);
-            router.push('/');
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data, { position: 'top-right' });
+        firebase.auth().createUserWithEmailAndPassword(this.model.email, this.model.password)
+          .then(user=> {
+            this.model.email = ''
+            this.model.password = ''
+            this.model.name = ''
+            this.model.age = ''
+            this.$toast.info(`Registro exitoso`, { position: 'top-right' });
+            console.log(user);
+          }).catch(err => {
+            this.$toast.error(err, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);
-          });
-      } else {
+          })
+        }else { 
         this.$toast.error('Please check your input', { position: 'top-right' });
         setTimeout(this.$toast.clear, 3000);
       }

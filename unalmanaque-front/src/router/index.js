@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter,createWebHistory } from 'vue-router';
 
-import store from '@/store';
+//import store from '@/store';
+import firebase from 'firebase';
 
 import Login from '@/views/Auth/Login';
 import Register from '@/views/Auth/Register';
@@ -28,7 +29,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/',
+      path: '/home',
       name: 'Home',
       component: Home,
       meta: {
@@ -54,8 +55,21 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(rec => rec.meta.requiresAuth)){
+    const user =firebase.auth().currentUser;
+    if(user){
+      return next(); 
+    }else {
+      return next({
+        path: '/login'
+      })
+    }
+  }
+  else { 
+    return next();
+  }
+ /* if (to.meta.requiresAuth) {
     if (!store.getters.authToken) {
       return next({ path: '/login' });
     } else {
@@ -63,7 +77,7 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     return next();
-  }
-});
+  }*/
+})
 
 export default router;
