@@ -1,8 +1,8 @@
-import axios from 'axios';
+
 import { mapActions } from 'vuex';
 
-import router from '@/router';
 
+import firebase from 'firebase';
 export default {
   data() {
     return {
@@ -14,21 +14,18 @@ export default {
     ...mapActions(['setToken']),
     login() {
       if (this.email && this.password) {
-        axios
-          .post('/login', {
-            email: this.email,
-            password: this.password,
-          })
-          .then((res) => {
+          firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+            .then((user) => {
             this.$toast.info(`Logged In`, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);
-            this.setToken(res.data.accessToken);
-            router.push('/');
+            console.log(user);
+            this.$router.go('/');
           })
           .catch((err) => {
-            this.$toast.error(err.response.data, { position: 'top-right' });
+            this.$toast.error(err, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);
           });
+
       }
     },
   },
