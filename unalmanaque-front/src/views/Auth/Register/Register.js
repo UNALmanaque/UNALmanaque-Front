@@ -16,6 +16,7 @@ export default {
   },
   methods: {
     register() {
+        let post = {userName : this.model.name, userEmail : this.model.email, userPassword : this.model.password};
       if (
         this.model.email &&
         this.model.password &&
@@ -29,13 +30,9 @@ export default {
             this.model.name = ''
             this.model.age = ''
             this.$toast.info(`Registro exitoso`, { position: 'top-right' });
-            axios
-                .post('localhost:8080/register/api/user', {
-                    userName : "usuario",
-                    userEmail : "mail",
-                    userPassword : "123"
-                })
             console.log(user);
+            axios
+                .post('register/api/user', post)
           }).catch(err => {
             this.$toast.error(err, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);
