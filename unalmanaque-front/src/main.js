@@ -13,6 +13,6 @@ app.use(store);
 app.use(Toaster);
 
 
-axios.defaults.baseURL = 'http://localhost:3000/';
+axios.defaults.baseURL = 'http://localhost:8080/';
 
 app.mount('#app');

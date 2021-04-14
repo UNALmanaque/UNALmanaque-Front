@@ -1,6 +1,7 @@
 
 
 import firebase from 'firebase';
+import axios from 'axios';
 import '@/firebase/init'
 export default {
   data() {
@@ -15,6 +16,7 @@ export default {
   },
   methods: {
     register() {
+        let post = {userName : this.model.name, userEmail : this.model.email, userPassword : this.model.password};
       if (
         this.model.email &&
         this.model.password &&
@@ -29,6 +31,8 @@ export default {
             this.model.age = ''
             this.$toast.info(`Registro exitoso`, { position: 'top-right' });
             console.log(user);
+            axios
+                .post('register/api/user', post)
           }).catch(err => {
             this.$toast.error(err, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);
