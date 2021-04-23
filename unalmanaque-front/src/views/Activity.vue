@@ -33,7 +33,7 @@
               </div>
               <div class="form-group col-8">
                 <label for="category">Categoria:</label>
-           <select class="form-control" v-model='category'>
+           <select class="form-control" v-model='activity.category'>
             <option v-for='(data, index) in activity.categories' :key='index' value=data>{{ data }}</option> <!--toca cambiarlo cuando el get the categories funcione :c-->
             </select>
               </div>
@@ -130,9 +130,11 @@ methods:{
       
    },
   createActivity: function(){
+    if(this.activity.days){
     this.activity.days.forEach(day => {
       this.activity.daily += parseInt(day)
     });
+    }
     let post = {
       eventStartDate: this.activity.startdate , 
       eventEndDate: this.activity.enddate, 
