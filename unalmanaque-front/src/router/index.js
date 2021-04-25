@@ -8,6 +8,7 @@ import Register from '@/views/Auth/Register';
 import Home from '@/views/Home';
 import Profile from '@/views/Profile';
 import Activity from '@/views/Activity.vue';
+import User_Information from '@/views/User_Information';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -48,6 +49,14 @@ const router = createRouter({
       path: '/activity',
       name: 'Activity',
       component: Activity,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/user_information',
+      name: 'User Information',
+      component: User_Information,
       meta: {
         requiresAuth: true,
       },
