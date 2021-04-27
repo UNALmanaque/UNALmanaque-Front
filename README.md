@@ -1,10 +1,14 @@
-# UNALmanaque-Front
+## TO INSTALL THE PROJECT
+npm install / yarn install
 
-npm install 
-npm install firebase
-npm run serve 
+## TO RUN THE PROJECT IN DEV
+npm run serve / yarn serve
 
+## TO RUN THE FAKE SERVER
 
-si hay error: 
-npm cache clean --force
-y borrar la carpeta node_modules
+### NPM 
+npm install -g json-server json-server-auth
+ 
+### Yarn 
+yarn add -g json-server json-server-auth
+
