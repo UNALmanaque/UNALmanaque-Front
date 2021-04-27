@@ -1,0 +1,18 @@
+<div>
+  <div class="d-flex flex-column align-items-center">
+    <h3>Welcome, {{user.name}} {{user.lastname}}</h3>
+    <div class="card col-10 col-md-6">
+      <div class="card-header">
+        <h5>Your Information:</h5>
+        <p class="mr-0">
+          <router-link to="/profile">Edit</router-link>
+        </p>
+      </div>
+      <div class="card-body">
+        <p>Email: {{user.email}}</p>
+        <p>Age: {{user.age}}</p>
+        <p>Address: {{user.address}}</p>
+      </div>
+    </div>
+  </div>
+</div>
