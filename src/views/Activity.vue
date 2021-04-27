@@ -34,7 +34,7 @@
               <div class="form-group col-8">
                 <label for="category">Categoria:</label>
            <select class="form-control" v-model='activity.category'>
-            <option v-for='(data, index) in activity.categories' :key='index' value=data.categoryId>{{ data.categoryName }}</option> <!--toca cambiarlo cuando el get the categories funcione :c-->
+            <option v-for='data in activity.categories' :value='data.categoryId' :key='data.categoryId'>{{ data.categoryName }}</option> <!--toca cambiarlo cuando el get the categories funcione :c-->
             </select>
               </div>
               
@@ -113,6 +113,7 @@ methods:{
       axios.get('/api/category')
       .then(response => {
          this.activity.categories = response.data;
+         console.log(this.activity.categories[0].categoryId);
       });
    },
    getCurrentUser: function(){
@@ -144,7 +145,8 @@ methods:{
       eventPriority: this.activity.priority ,  
       eventDaily: this.activity.daily, 
       eventWeek: this.activity.week,
-      //user: this.activity.user.userId
+      user: this.activity.user.userId,
+      category: this.activity.category
      };
     
     if (
