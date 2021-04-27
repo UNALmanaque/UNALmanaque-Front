@@ -34,7 +34,7 @@
               <div class="form-group col-8">
                 <label for="category">Categoria:</label>
            <select class="form-control" v-model='activity.category'>
-            <option v-for='(data, index) in activity.categories' :key='index' value=data>{{ data }}</option> <!--toca cambiarlo cuando el get the categories funcione :c-->
+            <option v-for='(data, index) in activity.categories' :key='index' value=data.categoryId>{{ data.categoryName }}</option> <!--toca cambiarlo cuando el get the categories funcione :c-->
             </select>
               </div>
               
@@ -94,7 +94,7 @@ export default {
         category: null,
         priority: null,
         repetition: null,
-        categories: '',
+        categories: [],
         week: null,
         daily:0,
         user: null,
@@ -111,7 +111,7 @@ export default {
 methods:{
   getCategories: function(){
       axios.get('/api/category')
-      .then(function (response) {
+      .then(response => {
          this.activity.categories = response.data;
       });
    },
@@ -120,9 +120,9 @@ methods:{
       if(user){
         console.log(user.email)
 
-      axios.get('/api/user/', { params: { userEmail: user.email} })
-      .then(function (response) {
-         this.activity.user = response.data;
+      axios.get('register/api/user/find/'+user.email)
+      .then(response => {
+        this.activity.user = response.data;
       });
     }
 
@@ -144,7 +144,7 @@ methods:{
       eventPriority: this.activity.priority ,  
       eventDaily: this.activity.daily, 
       eventWeek: this.activity.week,
-      user: this.user
+      //user: this.activity.user.userId
      };
     
     if (
@@ -154,7 +154,7 @@ methods:{
         
       ){
         console.log(post)
-        axios.post('api/event', post) // Esta es la ruta que estaba en el controlador :c
+        axios.post('/api/event', post) // Esta es la ruta que estaba en el controlador :c
       }
   },
     
