@@ -8,6 +8,7 @@ import Register from '@/views/Auth/Register';
 import Home from '@/views/Home';
 import Profile from '@/views/Profile';
 import Activity from '@/views/Activity.vue';
+import Activities from '@/views/Activities'
 import User_Information from '@/views/User_Information';
 
 const router = createRouter({
@@ -46,6 +47,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/activities',
+      name: 'Activities',
+      component: Activities,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/activity',
       name: 'Activity',
       component: Activity,
@@ -66,7 +75,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(rec => rec.meta.requiresAuth)){
-    const user =firebase.auth().currentUser;
+    const user = firebase.auth().currentUser;
     if(user){
       return next(); 
     }else {

@@ -12,6 +12,9 @@
           <div class="nav-item" :class="{ active: route === 'Profile' }">
             <router-link class="nav-link" to="/profile">Profile</router-link>
           </div>
+          <div class="nav-item" :class="{ active: route === 'Activities' }">
+            <router-link class="nav-link" to="/activities">Activities</router-link>
+          </div>
           <div class="nav-item" :class="{ active: route === 'Activity' }">
             <router-link class="nav-link" to="/activity">Activity</router-link>
           </div>

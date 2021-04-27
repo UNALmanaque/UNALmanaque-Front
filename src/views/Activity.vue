@@ -154,7 +154,7 @@ methods:{
         
       ){
         console.log(post)
-        axios.post('api/event', post) // Esta es la ruta que estaba en el controlador :c 
+        axios.post('api/event', post) // Esta es la ruta que estaba en el controlador :c
       }
   },
     
