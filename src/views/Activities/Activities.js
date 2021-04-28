@@ -32,15 +32,8 @@ export default {
           //DELETE THIS CODE AFTER GET IS WORKING
           for (let index = 0; index < 5; index++) {
             let truthiness = 1011001
-            let test = truthiness.toString()
-            // let mon = (test[0] == 1 )
-            // let tue = (test[1] == 1 )
-            // let wed = (test[2] == 1 )
-            // let thu = (test[3] == 1 )
-            // let fri = (test[4] == 1 )
-            // let sat = (test[5] == 1 )
-            // let sun = (test[6] == 1 )
             this.activities.push({
+              id: index,
               name: 'a',
               begin: 'x',
               end: 'y',
@@ -49,11 +42,21 @@ export default {
               category : 'v',
               repetition : truthiness.toString(),
               weeks: 10
-            }) 
-            console.log(typeof test)
+            })
           }
           /////////
         });
     },
+    deleteActivity(id){
+      //Here should go a post method
+      console.log('activity to delete: ', id);
+      //call the get activity again
+      //getActivities()
+    },
+    editActivity(index){
+      console.log('Activity is:');
+      console.log(this.activities[index]);
+      this.$router.push('/edit-activity');
+    }
   },
 };
