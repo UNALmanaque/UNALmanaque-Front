@@ -121,9 +121,10 @@ methods:{
       if(user){
         console.log(user.email)
 
-      axios.get('register/api/user/find/'+user.email)
+      axios.get('/api/user/find/'+user.email)
       .then(response => {
         this.activity.user = response.data;
+        console.log(this.activity.user.userId)
       });
     }
 
@@ -137,17 +138,24 @@ methods:{
     });
     }
     let post = {
-      eventStartDate: this.activity.startdate , 
-      eventEndDate: this.activity.enddate, 
-      eventRep: this.activity.repetition, 
-      eventName: this.activity.name , 
-      eventColor: this.activity.color, 
-      eventPriority: this.activity.priority ,  
-      eventDaily: this.activity.daily, 
-      eventWeek: this.activity.week,
-      user: this.activity.user.userId,
-      category: this.activity.category
-     };
+    "eventStartDate": this.activity.startdate,
+    "eventEndDate": this.activity.enddate,
+    "eventRep": this.activity.repetition,
+    "eventName": this.activity.name,
+    "eventColor": this.activity.color,
+    "eventPriority": this.activity.priority,
+    "eventDaily": this.activity.daily,
+    "eventWeek": this.activity.week,
+    "category": {
+        "categoryId": this.activity.category
+    },
+    "user": {
+        "userId": this.activity.user.userId
+    }
+    }
+    
+    
+    
     
     if (
         this.activity.startdate &&

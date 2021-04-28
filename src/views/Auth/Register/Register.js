@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     register() {
-        let post = {userName : this.model.name, userEmail : this.model.email, userPassword : this.model.password};
+        let post = {userName : this.model.name, userEmail : this.model.email, userPassword : this.model.password, userBorn : this.model.age};
       if (
         this.model.email &&
         this.model.password &&
@@ -32,7 +32,7 @@ export default {
             this.$toast.info(`Registro exitoso`, { position: 'top-right' });
             console.log(user);
             axios
-                .post('register/api/user', post)
+                .post('/api/user', post)
           }).catch(err => {
             this.$toast.error(err, { position: 'top-right' });
             setTimeout(this.$toast.clear, 3000);

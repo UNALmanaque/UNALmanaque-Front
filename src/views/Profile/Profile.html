@@ -1,26 +1,26 @@
 <div>
   <div class="d-flex flex-column align-items-center">
-    <h3>Edit your information</h3>
+    <h3>Edita tu información</h3>
     <div class="card col-10 col-md-6">
       <div class="card-header">
-        <h5>Your Information:</h5>
+        <h5>Tu información:</h5>
       </div>
       <div class="card-body">
         <form class="profile-form" @submit.prevent="onSubmit">
           <div class="form-group">
-            <label>Name</label>
+            <label>Nombre</label>
             <input
               class="form-control"
               v-model="user.name"
-              placeholder="Name"
+              placeholder="Nombre"
             />
           </div>
           <div class="form-group">
-            <label>Last Name</label>
+            <label>Apellido</label>
             <input
               class="form-control"
               v-model="user.lastname"
-              placeholder="Last name"
+              placeholder="Apellido"
             />
           </div>
           <div class="form-group">
@@ -32,34 +32,25 @@
             />
           </div>
           <div class="form-group">
-            <label>Password</label>
+            <label>Contraseña</label>
             <input
               class="form-control"
               v-model="user.password"
-              placeholder="Password"
+              placeholder="Contraseña"
               type="password"
             />
           </div>
           <div class="row mb-3">
             <div class="form-group col-4">
-              <label>Age</label>
+              <label>Fecha de nacimiento</label>
               <input
                 class="form-control"
-                type="number"
+                type="date"
                 v-model="user.age"
-                placeholder="Age"
-              />
-            </div>
-            <div class="form-group col-8">
-              <label>Address</label>
-              <input
-                class="form-control"
-                v-model="user.address"
-                placeholder="Address"
               />
             </div>
           </div>
-          <button @click="updateUser" class="btn btn-primary">Update</button>
+          <button @click="updateUser" class="btn btn-primary">Actualizar</button>
         </form>
       </div>
     </div>

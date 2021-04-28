@@ -1,7 +1,7 @@
 <div>
   <header class="auth-header"></header>
   <div class="auth-form d-flex flex-column align-items-center">
-    <h1 class="auth-title">Sign Up</h1>
+    <h1 class="auth-title">Registro</h1>
     <div class="card col-6 col-md-4 col-xl-3 p-4">
       <form @submit.prevent="onSubmit">
         <input
@@ -11,13 +11,13 @@
         />
         <input
           class="col-12 auth-input p-1 mt-2 mb-2"
-          placeholder="Password"
+          placeholder="Contraseña"
           type="password"
           v-model="model.password"
         />
         <input
           class="col-12 auth-input p-1 mt-2 mb-2"
-          placeholder="Name"
+          placeholder="Nombre"
           v-model="model.name"
         />
         <input
@@ -26,12 +26,12 @@
           type="date"
         />
         <button @click="register" class="col-6 btn-block btn-primary">
-          Sign up
+          Registrarse
         </button>
       </form>
       <p>
-        Already have an account?
-        <router-link to="/login">Log In</router-link>
+        Ya tienes cuenta?
+        <router-link to="/login">Iniciar sesión</router-link>
       </p>
     </div>
   </div>
