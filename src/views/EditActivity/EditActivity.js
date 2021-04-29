@@ -17,5 +17,9 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    editActivity: function(){
+      this.$toast.info(`Editado exitoso`, { position: 'top-right' });
+    }
+  },
 };

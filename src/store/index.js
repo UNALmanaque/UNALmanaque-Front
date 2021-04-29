@@ -16,6 +16,7 @@ const store = createStore({
     return {
       currentUser: {},
       authToken: null,
+      activityid:0
     };
   },
   mutations: {

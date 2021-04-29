@@ -81,6 +81,8 @@ export default {
       //getActivities()
     },
     editActivity(index){
+      this.activityid=this.activities[index].eventId;
+      console.log("eeee", this.activityid)
       console.log('Activity is:');
       console.log(this.activities[index]);
       this.$router.push('/edit-activity');
