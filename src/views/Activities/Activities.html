@@ -19,27 +19,27 @@
       <tbody>
         <tr v-for="(activity, index) in activities">
           <td>{{index+1}}</td>
-          <td>{{activity.name}}</td>
-          <td>{{activity.begin}}</td>
-          <td>{{activity.end}}</td>
-          <td>{{activity.color}}</td>
-          <td>{{activity.priority}}</td>
-          <td>{{activity.category}}</td>
-          <td v-if="activity.repetition">
-            <span :class="{'text-success': activity.repetition[0] == 1, 'text-danger': activity.repetition[0] != 1}">L</span>
-            <span :class="{'text-success': activity.repetition[1] == 1, 'text-danger': activity.repetition[1] == 0}">M</span>
-            <span :class="{'text-success': activity.repetition[2] == 1, 'text-danger': activity.repetition[2] == 0}">M</span>
-            <span :class="{'text-success': activity.repetition[3] == 1, 'text-danger': activity.repetition[3] == 0}">J</span>
-            <span :class="{'text-success': activity.repetition[4] == 1, 'text-danger': activity.repetition[4] == 0}">V</span>
-            <span :class="{'text-success': activity.repetition[5] == 1, 'text-danger': activity.repetition[5] == 0}">S</span>
-            <span :class="{'text-success': activity.repetition[6] == 1, 'text-danger': activity.repetition[6] == 0}">D</span>
+          <td>{{activity.eventName}}</td>
+          <td>{{activity.eventStartDate}}</td>
+          <td>{{activity.eventEndDate}}</td>
+          <td>{{activity.eventColor}}</td>
+          <td>{{activity.eventPriority}}</td>
+          <td>{{activity.category.categoryName}}</td>
+          <td v-if="activity.eventRep">
+            <span :class="{'text-success': activity.eventDaily[0] == 1, 'text-danger': activity.eventDaily[0] != 1}">L</span>
+            <span :class="{'text-success': activity.eventDaily[1] == 1, 'text-danger': activity.eventDaily[1] == 0}">M</span>
+            <span :class="{'text-success': activity.eventDaily[2] == 1, 'text-danger': activity.eventDaily[2] == 0}">M</span>
+            <span :class="{'text-success': activity.eventDaily[3] == 1, 'text-danger': activity.eventDaily[3] == 0}">J</span>
+            <span :class="{'text-success': activity.eventDaily[4] == 1, 'text-danger': activity.eventDaily[4] == 0}">V</span>
+            <span :class="{'text-success': activity.eventDaily[5] == 1, 'text-danger': activity.eventDaily[5] == 0}">S</span>
+            <span :class="{'text-success': activity.eventDaily[6] == 1, 'text-danger': activity.eventDaily[6] == 0}">D</span>
           </td>
           <td v-else>
             -
           </td>
-          <td>{{activity.weeks}}</td>
+          <td>{{activity.eventWeek}}</td>
           <td><a href="#" @click="editActivity(index)"><i class="fa fa-edit" /></a></td>
-          <td><a href="#" @click="deleteActivity(activity.id)"><i class="fa fa-trash" /></a></td>
+          <td><a href="#" @click="deleteActivity(activity.eventId)"><i class="fa fa-trash" /></a></td>
         </tr>
       </tbody>
     </table>
