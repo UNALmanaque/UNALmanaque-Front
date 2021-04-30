@@ -6,36 +6,35 @@ export default {
   data() {
     return {
       activities: [],
-      id: 10
+      id: 0
     };
   },
   created() {
-    this.getActivities();
+    //this.getUserId();
+    //this.sampleActivities();
   },
   computed: {
     ...mapGetters(['authToken']),
   },
   methods: {
     ...mapActions(['setUser']),
-    getActivities() {
-      //var userId;
-      const user =firebase.auth().currentUser;
+    getUserId(){
+      const user = firebase.auth().currentUser;
       if(user){
-
-      axios.get('/api/user/find/'+user.email)
-      .then(response => {
-        console.log(response.data.userId)
-        this.id = response.data.userId;
-        
-      });
-    
-    
-      console.log("holaaa", this.id)
+        axios.get('/api/user/find/'+user.email)
+        .then(response => {
+          this.id = response.data.userId;
+          this.getActivities()
+        }).catch(err=>{
+          this.$toast.error(err.response.data, { position: 'top-right' });
+          setTimeout(this.$toast.clear, 3000);
+        });
+      }
+    },
+    getActivities() {
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
-          //iterates over the response adding each
-          //activity to the array
           console.log(res)
           res.data.forEach(element => {
             console.log(element)
@@ -47,24 +46,8 @@ export default {
           console.log(err)
           this.$toast.error(err.response.data, { position: 'top-right' });
           setTimeout(this.$toast.clear, 3000);
-          //DELETE THIS CODE AFTER GET IS WORKING
-          for (let index = 0; index < 5; index++) {
-            let truthiness = 1011001
-            this.activities.push({
-              id: index,
-              name: 'a',
-              begin: 'x',
-              end: 'y',
-              color: 'f',
-              priority: 'z',
-              category : 'v',
-              repetition : truthiness.toString(),
-              weeks: 10
-            })
-          }
-          /////////
         });
-      }
+      
     },
     deleteActivity(id){
       //Here should go a post method
@@ -80,12 +63,25 @@ export default {
       //call the get activity again
       //getActivities()
     },
-    editActivity(index){
-      this.activityid=this.activities[index].eventId;
-      console.log("eeee", this.activityid)
-      console.log('Activity is:');
-      console.log(this.activities[index]);
-      this.$router.push('/edit-activity');
+    editActivity(eventId){
+      this.$router.push(`edit-activity?eventId=${eventId}`);
+    },
+    sampleActivities(){
+      for (let index = 0; index < 5; index++) {
+        this.activities.push({
+          eventId: 15,
+          eventName: 'x',
+          eventStartDate: 'y',
+          eventEndDate: 'z',
+          eventColor: 'red',
+          eventPriority: 1,
+          category: {
+            categoryName: 'wtf'
+          },
+          eventDaily: '1011010',
+          eventWeek: 4
+        })
+      }
     }
   },
 };

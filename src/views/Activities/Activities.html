@@ -25,7 +25,7 @@
           <td>{{activity.eventColor}}</td>
           <td>{{activity.eventPriority}}</td>
           <td>{{activity.category.categoryName}}</td>
-          <td v-if="activity.eventRep">
+          <td v-if="activity.eventDaily">
             <span :class="{'text-success': activity.eventDaily[0] == 1, 'text-danger': activity.eventDaily[0] != 1}">L</span>
             <span :class="{'text-success': activity.eventDaily[1] == 1, 'text-danger': activity.eventDaily[1] == 0}">M</span>
             <span :class="{'text-success': activity.eventDaily[2] == 1, 'text-danger': activity.eventDaily[2] == 0}">M</span>
@@ -38,7 +38,7 @@
             -
           </td>
           <td>{{activity.eventWeek}}</td>
-          <td><a href="#" @click="editActivity(index)"><i class="fa fa-edit" /></a></td>
+          <td><a href="#" @click="editActivity(activity.eventId)"><i class="fa fa-edit" /></a></td>
           <td><a href="#" @click="deleteActivity(activity.eventId)"><i class="fa fa-trash" /></a></td>
         </tr>
       </tbody>
