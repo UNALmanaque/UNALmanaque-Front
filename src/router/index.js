@@ -1,4 +1,4 @@
-import { createRouter,createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 //import store from '@/store';
 import firebase from 'firebase';
@@ -8,6 +8,7 @@ import Register from '@/views/Auth/Register';
 import Home from '@/views/Home';
 import Profile from '@/views/Profile';
 import Activity from '@/views/Activity.vue';
+import Calendar from '@/views/Calendar.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -52,24 +53,31 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: Calendar,
+      meta: {
+        requiresAuth: false,
+      },
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(rec => rec.meta.requiresAuth)){
-    const user =firebase.auth().currentUser;
-    if(user){
-      return next(); 
-    }else {
+  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      return next();
+    } else {
       return next({
-        path: '/login'
-      })
+        path: '/login',
+      });
     }
-  }
-  else { 
+  } else {
     return next();
   }
- /* if (to.meta.requiresAuth) {
+  /* if (to.meta.requiresAuth) {
     if (!store.getters.authToken) {
       return next({ path: '/login' });
     } else {
@@ -78,6 +86,6 @@ router.beforeEach((to, from, next) => {
   } else {
     return next();
   }*/
-})
+});
 
 export default router;

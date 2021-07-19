@@ -15,6 +15,9 @@
           <div class="nav-item" :class="{ active: route === 'Activity' }">
             <router-link class="nav-link" to="/activity">Activity</router-link>
           </div>
+          <div class="nav-item" :class="{ active: route === 'Calendar' }">
+            <router-link class="nav-link" to="/calendar">Calendar</router-link>
+          </div>
           <div class="nav-item logout">
             <a class="nav-link" @click="logout">Logout</a>
           </div>
