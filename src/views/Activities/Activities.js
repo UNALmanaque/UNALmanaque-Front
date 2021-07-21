@@ -6,11 +6,32 @@ export default {
   data() {
     return {
       activities: [],
-      id: 0
+      id: 0,
+      states: [{
+        id: 0,
+        name: "En curso",
+        color: "#ffff00"
+      },
+      {
+        id: 1,
+        name: "Terminado",
+        color: "#7cfc00"
+      },
+      {
+        id: -1,
+        name: "No terminado",
+        color: "ff0000"
+      }
+    ],
+      
+      
     };
   },
   created() {
-    //this.getUserId();
+    
+    this.getUserId();
+    this.getActivities();
+    console.log("see", this.states.length)
     //this.sampleActivities();
   },
   computed: {
@@ -35,7 +56,7 @@ export default {
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
-          console.log(res)
+          console.log("hola", res)
           res.data.forEach(element => {
             console.log(element)
             element.eventDaily.toString()

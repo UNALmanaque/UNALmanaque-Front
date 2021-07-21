@@ -149,6 +149,8 @@ methods:{
     "category": {
         "categoryId": this.activity.category
     },
+    "state": -1,
+    "done":false,
     "user": {
         "userId": this.activity.user.userId
     }
@@ -164,9 +166,9 @@ methods:{
         
       ){
         console.log(post)
-        axios.post('/api/event', post) 
-        // Esta es la ruta que estaba en el controlador :c
+        axios.post('/api/event', post)
       }
+    this.$router.push('/activities')
   },
     
 
