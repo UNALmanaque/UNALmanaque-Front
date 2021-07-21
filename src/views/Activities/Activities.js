@@ -69,10 +69,10 @@ export default {
     sampleActivities(){
       for (let index = 0; index < 5; index++) {
         this.activities.push({
-          eventId: 15,
-          eventName: 'x',
           eventStartDate: 'y',
           eventEndDate: 'z',
+          eventId: 15,
+          eventName: 'x',
           eventColor: 'red',
           eventPriority: 1,
           category: {

@@ -1,8 +1,8 @@
 <template>
   <div class="text-center section">
-    <h2 class="h2">Custom Calendars</h2>
+    <h2 class="h2">My Calendar</h2>
     <p class="text-lg font-medium text-gray-600 mb-6">
-      Roll your own calendars using scoped slots
+      Activities Calendar
     </p>
     <v-calendar
       class="custom-calendar max-w-full"
@@ -16,12 +16,12 @@
           <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
-              v-for="attr in attributes"
-              :key="attr.key"
+              v-for="(attr, index) in attributes"
+              :key="index"
               class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
               :class="attr.customData.class"
             >
-              {{ attr.customData.title}}
+              {{ attr.customData.title }}
             </p>
           </div>
         </div>
@@ -31,89 +31,136 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  created() {
+    // this.getData();
+    this.getFakeData();
+  },
   data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
     return {
       masks: {
         weekdays: 'WWW',
       },
-      attributes: [
-        {
-          key: 1,
-          customData: {
-            title: 'Lunch with mom.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 1),
-        },
-        {
-          key: 2,
-          customData: {
-            title: 'Take Noah to basketball practice',
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 2),
-        },
-        {
-          key: 3,
-          customData: {
-            title: "Noah's basketball game.",
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Take car to the shop',
-            class: 'bg-indigo-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 5,
-          customData: {
-            title: 'Meeting with new client.',
-            class: 'bg-red-500 text-white',
-          },
-          dates: new Date(year, month, 9),
-        },
-        {
-          key: 6,
-          customData: {
-            title: "Mia's gymnastics practice.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 11),
-        },
-        {
-          key: 7,
-          customData: {
-            title: 'Cookout with friends.',
-            class: 'bg-red-500 text-white',
-          },
-          dates: { months: 5, ordinalWeekdays: { 2: 1 } },
-        },
-        {
-          key: 8,
-          customData: {
-            title: "Mia's gymnastics recital.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 22),
-        },
-        {
-          key: 9,
-          customData: {
-            title: 'Visit great grandma.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 25),
-        },
-      ],
+      attributes: [],
     };
+  },
+  methods: {
+    getWeekArray(activityDays) {
+      let repetition = [];
+      if (activityDays[6] == 1) {
+        repetition.push(1);
+      }
+      if (activityDays[0] == 1) {
+        repetition.push(2);
+      }
+      if (activityDays[1] == 1) {
+        repetition.push(3);
+      }
+      if (activityDays[2] == 1) {
+        repetition.push(4);
+      }
+      if (activityDays[3] == 1) {
+        repetition.push(5);
+      }
+      if (activityDays[4] == 1) {
+        repetition.push(6);
+      }
+      if (activityDays[5] == 1) {
+        repetition.push(7);
+      }
+      return repetition;
+    },
+    getData() {
+      axios
+        .get('/api/event/find/0')
+        .then((res) => {
+          res.data.forEach((activity) => {
+            this.attributes.push({
+              customData: {
+                title: activity.eventName,
+                class: `bg-${activity.eventColor}-600 text-white`,
+              },
+              dates: {
+                start: activity.eventStartDate,
+                end: activity.eventEndDate,
+                weekdays: this.getWeekArray(activity.eventDaily),
+              },
+            });
+          });
+        })
+        .catch((err) => console.log(err));
+    },
+    getFakeData() {
+      let fakeActivities = [
+        {
+          eventStartDate: new Date(2021, 6, 1),
+          eventEndDate: new Date(2021, 6, 15),
+          eventId: (Math.random() * 20).toFixed(),
+          eventName: 'Activity 1',
+          eventColor: 'red',
+          eventPriority: 1,
+          category: {
+            categoryName: 'WTF',
+          },
+          eventDaily: '1010100',
+          eventWeek: 4,
+        },
+        {
+          eventStartDate: new Date(2021, 6, 1),
+          eventEndDate: new Date(2021, 8, 1),
+          eventId: (Math.random() * 20).toFixed(),
+          eventName: 'Activity 2',
+          eventColor: 'red',
+          eventPriority: 1,
+          category: {
+            categoryName: 'WTF',
+          },
+          eventDaily: '0000011',
+          eventWeek: 4,
+        },
+        {
+          eventStartDate: new Date(2021, 6, 1),
+          eventEndDate: new Date(2021, 8, 1),
+          eventId: (Math.random() * 20).toFixed(),
+          eventName: 'Activity 3',
+          eventColor: 'pink',
+          eventPriority: 1,
+          category: {
+            categoryName: 'WTF',
+          },
+          eventDaily: '1000000',
+          eventWeek: 4,
+        },
+        {
+          eventStartDate: new Date(2021, 6, 15),
+          eventEndDate: new Date(2021, 6, 31),
+          eventId: (Math.random() * 20).toFixed(),
+          eventName: 'Activity 4',
+          eventColor: 'green',
+          eventPriority: 1,
+          category: {
+            categoryName: 'WTF',
+          },
+          eventDaily: '1110000',
+          eventWeek: 4,
+        },
+      ];
+      fakeActivities.forEach((activity) => {
+        this.attributes.push({
+          customData: {
+            title: activity.eventName,
+            class: `bg-${activity.eventColor}-600 text-white`,
+          },
+          dates: {
+            start: activity.eventStartDate,
+            end: activity.eventEndDate,
+            weekdays: this.getWeekArray(activity.eventDaily),
+          },
+        });
+      });
+    },
   },
 };
 </script>

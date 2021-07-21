@@ -196,6 +196,7 @@ export default {
         console.log(post);
         axios.post('/api/event', post);
         // Esta es la ruta que estaba en el controlador :c
+        // Que putas :v y el .then y el catch?????
       }
     },
   },
