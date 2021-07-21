@@ -9,6 +9,9 @@ import Home from '@/views/Home';
 import Profile from '@/views/Profile';
 import Activity from '@/views/Activity.vue';
 import Calendar from '@/views/Calendar.vue';
+import EditActivity from '@/views/EditActivity';
+import Activities from '@/views/Activities';
+import User_Information from '@/views/User_Information';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,6 +49,22 @@ const router = createRouter({
       },
     },
     {
+      path: '/activities',
+      name: 'Activities',
+      component: Activities,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/edit-activity',
+      name: 'Edit Activity',
+      component: EditActivity,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/activity',
       name: 'Activity',
       component: Activity,
@@ -59,6 +78,14 @@ const router = createRouter({
       component: Calendar,
       meta: {
         requiresAuth: false,
+      },
+    },
+    {
+      path: '/user_information',
+      name: 'User Information',
+      component: User_Information,
+      meta: {
+        requiresAuth: true,
       },
     },
   ],

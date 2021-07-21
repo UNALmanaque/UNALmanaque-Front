@@ -21,7 +21,7 @@
               class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
               :class="attr.customData.class"
             >
-              {{ attr.customData.title }}
+              {{ attr.customData.title}}
             </p>
           </div>
         </div>
@@ -73,15 +73,15 @@ export default {
           dates: new Date(year, month, 5),
         },
         {
-          key: 4,
+          key: 5,
           customData: {
             title: 'Meeting with new client.',
-            class: 'bg-teal-500 text-white',
+            class: 'bg-red-500 text-white',
           },
-          dates: new Date(year, month, 7),
+          dates: new Date(year, month, 9),
         },
         {
-          key: 5,
+          key: 6,
           customData: {
             title: "Mia's gymnastics practice.",
             class: 'bg-pink-500 text-white',
@@ -89,15 +89,15 @@ export default {
           dates: new Date(year, month, 11),
         },
         {
-          key: 6,
+          key: 7,
           customData: {
             title: 'Cookout with friends.',
-            class: 'bg-orange-500 text-white',
+            class: 'bg-red-500 text-white',
           },
           dates: { months: 5, ordinalWeekdays: { 2: 1 } },
         },
         {
-          key: 7,
+          key: 8,
           customData: {
             title: "Mia's gymnastics recital.",
             class: 'bg-pink-500 text-white',
@@ -105,7 +105,7 @@ export default {
           dates: new Date(year, month, 22),
         },
         {
-          key: 8,
+          key: 9,
           customData: {
             title: 'Visit great grandma.',
             class: 'bg-red-600 text-white',
