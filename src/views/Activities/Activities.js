@@ -87,6 +87,39 @@ export default {
     editActivity(eventId){
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
+    editState(act_id, state){
+      if(state==1) state=-1
+      else state=state+1
+
+      let act = this.activities.filter(activity => activity.eventId == act_id)
+      console.log("acttttt",act[0])
+      let putt = {
+        "eventStartDate": act[0].startdate,
+        "eventEndDate": act[0].enddate,
+        "eventRep": act[0].repetition,
+        "eventName": act[0].name,
+        "eventColor": act[0].color,
+        "eventPriority": act[0].priority,
+        "eventDaily": act[0].daily,
+        "eventWeek": act[0].week,
+        "category": {
+            "categoryId": act[0].category
+        },
+        "state": state,
+        "done":false,
+        "user": {
+            "userId": act[0].user.userId
+        }
+        }
+        axios
+        .put('/event/update/state/'+act_id, putt)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+      this.$toast.info(`Editado exitoso`, { position: 'top-right' });
+
+    },
     sampleActivities(){
       for (let index = 0; index < 5; index++) {
         this.activities.push({
