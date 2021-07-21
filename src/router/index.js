@@ -77,7 +77,7 @@ const router = createRouter({
       name: 'Calendar',
       component: Calendar,
       meta: {
-        requiresAuth: false,
+        requiresAuth: true,
       },
     },
     {

@@ -56,6 +56,7 @@ export default {
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
+          console.log("ElID",this.id)
           console.log("hola", res)
           res.data.forEach(element => {
             console.log(element)

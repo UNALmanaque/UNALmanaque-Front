@@ -31,22 +31,45 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
+
 
 export default {
-  created() {
-    // this.getData();
-    this.getFakeData();
-  },
   data() {
     return {
       masks: {
         weekdays: 'WWW',
       },
       attributes: [],
+      id:0,
     };
   },
+  created() {
+    this.getUserId();
+    this.getData(); 
+    //this.getFakeData();
+  },
+  computed: {
+    ...mapGetters(['authToken']),
+  },
   methods: {
+    ...mapActions(['setUser']),
+    getUserId(){
+      const user = firebase.auth().currentUser;
+      console.log("adios",user)
+      if(user){
+        axios.get('/api/user/find/'+user.email)
+        .then(response => {
+          this.id = response.data.userId;
+          this.getData()
+        }).catch(err=>{
+          this.$toast.error(err.response.data, { position: 'top-right' });
+          setTimeout(this.$toast.clear, 3000);
+        });
+      }
+    },
     getWeekArray(activityDays) {
       let repetition = [];
       if (activityDays[6] == 1) {
@@ -74,17 +97,21 @@ export default {
     },
     getData() {
       axios
-        .get('/api/event/find/0')
+        .get('/api/event/find/'+this.id)
         .then((res) => {
-          res.data.forEach((activity) => {
+          console.log("ElID",this.id)
+          console.log(res)
+          res.data.forEach(activity => {
+            console.log("Actividad",activity)
+            console.log("tipoDate",typeof activity.eventStartDate)
             this.attributes.push({
               customData: {
                 title: activity.eventName,
                 class: `bg-${activity.eventColor}-600 text-white`,
               },
               dates: {
-                start: activity.eventStartDate,
-                end: activity.eventEndDate,
+                start: Date(activity.eventStartDate),
+                end: Date(activity.eventEndDate),
                 weekdays: this.getWeekArray(activity.eventDaily),
               },
             });
@@ -92,6 +119,7 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    
     getFakeData() {
       let fakeActivities = [
         {
