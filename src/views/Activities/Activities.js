@@ -10,17 +10,20 @@ export default {
       states: [{
         id: 0,
         name: "En curso",
-        color: "#ffff00"
+        color: "#ffff00",
+        key: 0
       },
       {
         id: 1,
         name: "Terminado",
-        color: "#7cfc00"
+        color: "#7cfc00",
+        key:0
       },
       {
         id: -1,
         name: "No terminado",
-        color: "ff0000"
+        color: "ff0000",
+        key: 0
       }
     ],
       
@@ -36,8 +39,18 @@ export default {
   },
   computed: {
     ...mapGetters(['authToken']),
+    activitylist(){
+      this.getActivities()
+    }
   },
   methods: {
+    forceRender(){
+      
+      this.states.forEach(state => {
+        state.key+=1;
+      });
+      
+    },
     ...mapActions(['setUser']),
     getUserId(){
       const user = firebase.auth().currentUser;
@@ -53,12 +66,11 @@ export default {
       }
     },
     getActivities() {
+      this.activities=[]
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
-          console.log("hola", res)
           res.data.forEach(element => {
-            console.log(element)
             element.eventDaily.toString()
             this.activities.push(element);
           });
@@ -92,32 +104,21 @@ export default {
       else state=state+1
 
       let act = this.activities.filter(activity => activity.eventId == act_id)
-      console.log("acttttt",act[0])
+
       let putt = {
-        "eventStartDate": act[0].startdate,
-        "eventEndDate": act[0].enddate,
-        "eventRep": act[0].repetition,
-        "eventName": act[0].name,
-        "eventColor": act[0].color,
-        "eventPriority": act[0].priority,
-        "eventDaily": act[0].daily,
-        "eventWeek": act[0].week,
-        "category": {
-            "categoryId": act[0].category
-        },
-        "state": state,
-        "done":false,
-        "user": {
-            "userId": act[0].user.userId
-        }
+        "eventState": state,
+        "eventId": act[0].id
         }
         axios
-        .put('/event/update/state/'+act_id, putt)
+        .patch('/api/event/update/streak/'+act_id, putt)
         .then((res) => {
           console.log(res);
+          this.$toast.info(`Cambio de estado exitoso`, { position: 'top-right' });
         })
         .catch((err) => console.log(err));
-      this.$toast.info(`Editado exitoso`, { position: 'top-right' });
+        this.getActivities()
+        this.forceRender()
+
 
     },
     sampleActivities(){
