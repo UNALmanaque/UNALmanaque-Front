@@ -5,6 +5,7 @@
       Activities Calendar
     </p>
     <v-calendar
+      v-if="!loading"
       class="custom-calendar max-w-full"
       :masks="masks"
       :attributes="attributes"
@@ -35,8 +36,8 @@ import axios from 'axios';
 
 export default {
   created() {
-    // this.getData();
-    this.getFakeData();
+    this.getData();
+    //this.getFakeData();
   },
   data() {
     return {
@@ -44,6 +45,7 @@ export default {
         weekdays: 'WWW',
       },
       attributes: [],
+      loading: true
     };
   },
   methods: {
@@ -76,6 +78,7 @@ export default {
       axios
         .get('/api/event/find/0')
         .then((res) => {
+          console.log("Response from Server: ", res);
           res.data.forEach((activity) => {
             this.attributes.push({
               customData: {
@@ -85,10 +88,11 @@ export default {
               dates: {
                 start: activity.eventStartDate,
                 end: activity.eventEndDate,
-                weekdays: this.getWeekArray(activity.eventDaily),
+                weekdays: this.getWeekArray(activity.eventDaily.toString()),
               },
             });
           });
+          this.loading = false;
         })
         .catch((err) => console.log(err));
     },
@@ -160,6 +164,7 @@ export default {
           },
         });
       });
+          this.loading = false;
     },
   },
 };
