@@ -20,7 +20,7 @@
               v-for="(attr, index) in attributes"
               :key="index"
               class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-              :class="attr.customData.class"
+              :style="`background: ${attr.customData.color};`"
             >
               {{ attr.customData.title }}
             </p>
@@ -103,7 +103,7 @@ export default {
             this.attributes.push({
               customData: {
                 title: activity.eventName,
-                class: `bg-${activity.eventColor}-600 text-white`,
+                color: activity.eventColor,
               },
               dates: {
                 start: activity.eventStartDate,
