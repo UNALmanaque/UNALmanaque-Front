@@ -33,9 +33,12 @@
 
 <script>
 import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
+import firebase from 'firebase';
 
 export default {
   created() {
+    this.getUserId();
     this.getData();
     //this.getFakeData();
   },
@@ -48,7 +51,24 @@ export default {
       loading: true
     };
   },
+  computed: {
+    ...mapGetters(['authToken']),
+  },
   methods: {
+    ...mapActions(['setUser']),
+    getUserId(){
+      const user = firebase.auth().currentUser;
+      if(user){
+        axios.get('/api/user/find/'+user.email)
+        .then(response => {
+          this.id = response.data.userId;
+          this.getData()
+        }).catch(err=>{
+          this.$toast.error(err.response.data, { position: 'top-right' });
+          setTimeout(this.$toast.clear, 3000);
+        });
+      }
+    },
     getWeekArray(activityDays) {
       let repetition = [];
       if (activityDays[6] == 1) {
@@ -76,7 +96,7 @@ export default {
     },
     getData() {
       axios
-        .get('/api/event/find/0')
+        .get('/api/event/find/'+this.id)
         .then((res) => {
           console.log("Response from Server: ", res);
           res.data.forEach((activity) => {
@@ -91,7 +111,7 @@ export default {
                 weekdays: this.getWeekArray(activity.eventDaily.toString()),
               },
             });
-          });
+          }); 
           this.loading = false;
         })
         .catch((err) => console.log(err));
