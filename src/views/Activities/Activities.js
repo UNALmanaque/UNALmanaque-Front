@@ -9,21 +9,27 @@ export default {
       id: 0,
       states: [{
         id: 0,
-        name: "En curso",
+        name: "Por hacer",
         color: "#ffff00",
-        key: 0
+        key: 2
       },
       {
         id: 1,
-        name: "Terminado",
+        name: "En curso",
         color: "#7cfc00",
-        key:0
+        key:1
       },
       {
         id: -1,
-        name: "No terminado",
+        name: "No finalizado",
         color: "ff0000",
         key: 0
+      },
+      {
+        id:2,
+        name: "Finalizado",
+        color: "#000000",
+        key: 3
       }
     ],
       
@@ -44,13 +50,7 @@ export default {
     }
   },
   methods: {
-    forceRender(){
-      
-      this.states.forEach(state => {
-        state.key+=1;
-      });
-      
-    },
+   
     ...mapActions(['setUser']),
     getUserId(){
       const user = firebase.auth().currentUser;
@@ -100,7 +100,7 @@ export default {
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
     editState(act_id, state){
-      if(state==1) state=-1
+      if(state==1) state=1
       else state=state+1
 
       let act = this.activities.filter(activity => activity.eventId == act_id)
@@ -120,6 +120,14 @@ export default {
         this.forceRender()
 
 
+    },
+    forceRender(){
+      console.log("holsss", this.states.length)
+      this.states.forEach(state => {
+        state.key+=1;
+        console.log(state.key)
+      });
+      
     },
     sampleActivities(){
       for (let index = 0; index < 5; index++) {

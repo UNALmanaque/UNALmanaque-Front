@@ -149,7 +149,7 @@ methods:{
     "category": {
         "categoryId": this.activity.category
     },
-    "state": -1,
+    "eventState": 0,
     "done":false,
     "user": {
         "userId": this.activity.user.userId
