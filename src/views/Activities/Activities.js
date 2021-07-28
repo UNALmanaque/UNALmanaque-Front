@@ -37,7 +37,7 @@ export default {
     currentFilter:0,
     filters: [
       {id: 0,
-      name: "Todes"
+      name: "Todo"
 
       },{
       id: 1,
@@ -140,8 +140,9 @@ export default {
     },
     editState(act_id, state){
       if(state==-1) state=-1
-      else if(state==2) state==2
-      else { state=state+1
+      else if(state==2){
+        state==2
+      }else { state=state+1
       this.activities.forEach(activity => {
         if(activity.eventId == act_id) activity.eventState = state;
       })
@@ -155,8 +156,8 @@ export default {
       if(state==2){
         putt["eventCurStreak"]= (act[0].eventCurStreak)+1
         let max
-        if(act[0].eventMaxStreak<act[0].eventCurStreak){
-          max = act[0].eventCurStreak
+        if(act[0].eventMaxStreak<act[0].eventCurStreak+1 || act[0].eventMaxStreak== null){
+          max = act[0].eventCurStreak+1
         }else{
           max = act[0].eventMaxStreak
         }
@@ -199,7 +200,7 @@ export default {
         }
       }
       now.setDate(now.getDate() + (numDay+(7-now.getDay())) % 7);
-      console.log("fecha:",now)
+      //console.log("fecha:",now)
       
       let putt = {
         "eventLastDate": now,
@@ -210,7 +211,7 @@ export default {
         .patch('/api/event/update/lastDate/'+act_id, putt)
         .then((res) => {
           console.log(res);
-          this.$toast.info(`Cambio de estado exitoso`, { position: 'top-right' });
+          //this.$toast.info(`Cambio de estado exitoso`, { position: 'top-right' });
         })
         .catch((err) => console.log(err));
 
@@ -219,7 +220,7 @@ export default {
       let act = this.activities.filter(activity => activity.eventId == act_id)
       let now = new Date();
       let actDate = new Date(act[0].evenLastDay)
-      console.log("fechas:",now, actDate)
+      //console.log("fechas:",now, actDate)
       if(now>actDate){
         if(act[0].eventState==0 || act[0].eventState==1){
           this.editState(act_id,-1)
@@ -230,7 +231,7 @@ export default {
       console.log("holsss", this.states.length)
       this.states.forEach(state => {
         state.key+=1;
-        console.log(state.key)
+        //console.log(state.key)
       });
       
     },
