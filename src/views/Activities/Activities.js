@@ -34,7 +34,21 @@ export default {
         key: 0
       }
     ],
-      
+    currentFilter:0,
+    filters: [
+      {id: 0,
+      name: "Todes"
+
+      },{
+      id: 1,
+      name: "Día",
+      },
+      {id: 2,
+      name: "Semana",
+    },
+      {id: 3,
+      name: "Mes"
+      }], 
       
     };
   },
@@ -98,7 +112,8 @@ export default {
       //call the get activity again
       //getActivities()
     },
-    editActivity(eventId){
+    editActivity(activity, eventId){
+      
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
     editState(act_id, state){
@@ -168,6 +183,105 @@ export default {
         eventDaily = "0" +eventDaily
       }
       return eventDaily
+    },
+    filter() {
+      
+      let filtered= [];
+      let current = new Date();
+      
+      if(this.currentFilter==1) { //Filtro por dia 
+        this.activities.forEach(activity => {
+        let start = new Date(activity.eventStartDate)
+        start.setDate(start.getDate() + 1);        
+        let end = new Date(activity.eventEndDate)
+        end.setDate(end.getDate() + 1);
+        if(activity.eventDaily) {
+          let skip=true //el forEach no tiene break >:c
+          this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
+            if(Math.abs(current-day) < (1000 * 60 * 60 * 24) && skip){
+            filtered.push(activity)
+            skip=false
+          }
+          })
+        }else {
+          if(Math.abs(current-start) < (1000 * 60 * 60 * 24) || Math.abs(current-end) < (1000 * 60 * 60 * 24))
+            filtered.push(activity)
+
+        }
+        
+
+        })
+      }
+      else if(this.currentFilter==2){ //Filtro por semana (en realidad son 4 dias alrededor son las 4am no esperes mucho de mi.....)
+        this.activities.forEach(activity => {
+          let start = new Date(activity.eventStartDate)
+          start.setDate(start.getDate() + 1);        
+          let end = new Date(activity.eventEndDate)
+          end.setDate(end.getDate() + 1);
+          if(activity.eventDaily) {
+            let skip=true //el forEach no tiene break >:c
+            this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
+              if(Math.abs(current-day) < (1000 * 60 * 60 * 24 * 4) && skip){
+              filtered.push(activity)
+              skip=false
+            }
+            })
+          }else {
+            if(Math.abs(current-start) < (1000 * 60 * 60 * 24 * 4) || Math.abs(current-end) < (1000 * 60 * 60 * 24 * 4))
+              filtered.push(activity)
+  
+          }
+          
+  
+          })
+      }
+      else if (this.currentFilter==3){ //Filtro por mes
+        let currentMonth = current.getMonth()
+        console.log(currentMonth)
+        this.activities.forEach(activity => {
+          let start = new Date(activity.eventStartDate)
+          start.setDate(start.getDate() + 1);        
+          let end = new Date(activity.eventEndDate)
+          end.setDate(end.getDate() + 1);
+
+          if(activity.eventDaily) {
+            let skip=true //el forEach no tiene break >:c
+            this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
+              if(day.getMonth() == currentMonth && skip){
+              filtered.push(activity)
+              skip=false
+            }
+            })
+          }else {
+            
+            if(start.getMonth() == currentMonth || end.getMonth() == currentMonth)
+              filtered.push(activity)
+  
+          }
+          
+  
+          })
+      }
+      else {
+        this.getActivities()
+        filtered=this.activities
+      }
+      this.activities=filtered
+    },
+    repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
+      let dates = []
+      eventDaily = this.fixEventDaily(eventDaily)
+      let date=start;
+      while((end-date)>=(1000 * 60 * 60 * 24)){
+        let i
+        date.getDay == 6 ?  i = 0 : i = date.getDay()-1
+       
+        if(eventDaily.charAt(i) == '1') {
+          dates.push(new Date(date)) // LAS FECHAS SE MANDAN POR REFERENCIA !!! TE ODIO !!!
+        }
+        date.setDate(date.getDate() + 1);
+      }
+      return dates
     },
     sampleActivities(){
       for (let index = 0; index < 5; index++) {

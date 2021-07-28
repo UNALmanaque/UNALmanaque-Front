@@ -1,5 +1,8 @@
 <div>
   <div class="d-flex flex-column align-items-center p-5">
+    <select class="form-control" @change="filter()" v-model='currentFilter'>
+      <option v-for='filter, index) in filters' :value='filter.id' :key='filter.id' >{{filter.name }}</option> 
+      </select>
     <div v-for="(state, index) in states" :key="state.key">
       <h1>{{state.name}}</h1>
       <table class="table table-striped table-responsive">
