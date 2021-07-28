@@ -57,13 +57,12 @@ export default {
     this.getUserId();
     this.getActivities();
     console.log("see", this.states.length)
+    this.getActivitiesUpdateDates();
+    
     //this.sampleActivities();
   },
   computed: {
     ...mapGetters(['authToken']),
-    activitylist(){
-      this.getActivities()
-    }
   },
   methods: {
    
@@ -75,6 +74,7 @@ export default {
         .then(response => {
           this.id = response.data.userId;
           this.getActivities()
+          this.getActivitiesUpdateDates()
         }).catch(err=>{
           this.$toast.error(err.response.data, { position: 'top-right' });
           setTimeout(this.$toast.clear, 3000);
@@ -82,13 +82,35 @@ export default {
       }
     },
     getActivities() {
+      console.log("Ativities")
       this.activities=[]
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
           res.data.forEach(element => {
+            console.log("nombre:",element.eventName)
+            console.log("curStreak:",element.eventCurStreak)
+            console.log("lastDate:",element.eventLastDate)
             element.eventDaily.toString()
             this.activities.push(element);
+          });
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$toast.error(err.response.data, { position: 'top-right' });
+          setTimeout(this.$toast.clear, 3000);
+        });
+      
+    },
+    getActivitiesUpdateDates() {
+      console.log("Update")
+      axios
+        .get('/api/event/find/'+this.id)
+        .then((res) => {
+          res.data.forEach(element => {
+            this.nextDate(element.eventId,element.eventDaily.toString())//seteamos la proxima fecha de finalizacion
+            this.stateFinalVerfication(element.eventId)
+            console.log("holi")
           });
         })
         .catch((err) => {
@@ -162,10 +184,47 @@ export default {
       }
 
     },  
-    nextDay(day){//day 0-6 dias de la semana .getDay()
-      var now = new Date();    
-      now.setDate(now.getDate() + (day+(7-now.getDay())) % 7);
-      return now;
+    nextDate(act_id,week){// next date of completion day 0-6 dias de la semana .getDay()
+      let act = this.activities.filter(activity => activity.eventId == act_id)
+
+      var now = new Date();
+      let numDay = now.getDay
+      //if(numDay==0) numDay = 7
+      for (numDay; numDay < week.length; numDay++) {
+        if(week[numDay]=="1"){
+          break
+        }else if(numDay==6){
+          numDay=0
+          break
+        }
+      }
+      now.setDate(now.getDate() + (numDay+(7-now.getDay())) % 7);
+      console.log("fecha:",now)
+      
+      let putt = {
+        "eventLastDate": now,
+        "eventId": act[0].id
+      }
+
+      axios
+        .patch('/api/event/update/lastDate/'+act_id, putt)
+        .then((res) => {
+          console.log(res);
+          this.$toast.info(`Cambio de estado exitoso`, { position: 'top-right' });
+        })
+        .catch((err) => console.log(err));
+
+    },
+    stateFinalVerfication(act_id){
+      let act = this.activities.filter(activity => activity.eventId == act_id)
+      let now = new Date();
+      let actDate = new Date(act[0].evenLastDay)
+      console.log("fechas:",now, actDate)
+      if(now>actDate){
+        if(act[0].eventState==0 || act[0].eventState==1){
+          this.editState(act_id,-1)
+        }
+      }
     },
     forceRender(){
       console.log("holsss", this.states.length)
