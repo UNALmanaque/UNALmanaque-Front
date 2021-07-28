@@ -29,13 +29,13 @@
             <td>{{activity.eventPriority}}</td>
             <td>{{activity.category.categoryName}}</td>
             <td v-if="activity.eventDaily">
-              <span :class="{'text-success': activity.eventDaily[0] == 1, 'text-danger': activity.eventDaily[0] != 1}">L</span>
-              <span :class="{'text-success': activity.eventDaily[1] == 1, 'text-danger': activity.eventDaily[1] == 0}">M</span>
-              <span :class="{'text-success': activity.eventDaily[2] == 1, 'text-danger': activity.eventDaily[2] == 0}">M</span>
-              <span :class="{'text-success': activity.eventDaily[3] == 1, 'text-danger': activity.eventDaily[3] == 0}">J</span>
-              <span :class="{'text-success': activity.eventDaily[4] == 1, 'text-danger': activity.eventDaily[4] == 0}">V</span>
-              <span :class="{'text-success': activity.eventDaily[5] == 1, 'text-danger': activity.eventDaily[5] == 0}">S</span>
-              <span :class="{'text-success': activity.eventDaily[6] == 1, 'text-danger': activity.eventDaily[6] == 0}">D</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(0) == '1', 'text-success': activity.eventDaily[0] == 1}">L</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(1) == '1', 'text-success': activity.eventDaily[1] == 1}">M</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(2) == '1', 'text-success': activity.eventDaily[2] == 1}">M</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(3) == '1', 'text-success': activity.eventDaily[3] == 1}">J</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(4) == '1', 'text-success': activity.eventDaily[4] == 1}">V</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(5) == '1', 'text-success': activity.eventDaily[5] == 1}">S</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(6) == '1', 'text-success': activity.eventDaily[6] == 1}">D</span>
             </td>
             <td v-else>
               -

@@ -73,12 +73,6 @@ export default {
         .get('/api/event/find/'+this.id)
         .then((res) => {
           res.data.forEach(element => {
-<<<<<<< Updated upstream
-            console.log("nombre:",element.eventName)
-            console.log("nombre:",element.eventCurStreak)
-=======
-            console.log(element)
->>>>>>> Stashed changes
             element.eventDaily.toString()
             this.activities.push(element);
           });
@@ -108,18 +102,12 @@ export default {
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
     editState(act_id, state){
-<<<<<<< Updated upstream
-      if(state==2) state=2
-      else state=state+1
-
-=======
       if(state==-1) state=-1
       else if(state==2) state==2
       else { state=state+1
       this.activities.forEach(activity => {
         if(activity.eventId == act_id) activity.eventState = state;
       })
->>>>>>> Stashed changes
       let act = this.activities.filter(activity => activity.eventId == act_id)
 
       let putt = {
@@ -171,6 +159,15 @@ export default {
         console.log(state.key)
       });
       
+    },
+    fixEventDaily(eventDaily){
+      
+      eventDaily = eventDaily.toString()
+      while(eventDaily.length<7){
+        
+        eventDaily = "0" +eventDaily
+      }
+      return eventDaily
     },
     sampleActivities(){
       for (let index = 0; index < 5; index++) {
