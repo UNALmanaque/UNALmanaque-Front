@@ -71,6 +71,8 @@ export default {
         .get('/api/event/find/'+this.id)
         .then((res) => {
           res.data.forEach(element => {
+            console.log("nombre:",element.eventName)
+            console.log("nombre:",element.eventCurStreak)
             element.eventDaily.toString()
             this.activities.push(element);
           });
@@ -100,7 +102,7 @@ export default {
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
     editState(act_id, state){
-      if(state==1) state=1
+      if(state==2) state=2
       else state=state+1
 
       let act = this.activities.filter(activity => activity.eventId == act_id)
@@ -109,6 +111,27 @@ export default {
         "eventState": state,
         "eventId": act[0].id
         }
+
+      if(state==2){
+        putt["eventCurStreak"]= (act[0].eventCurStreak)+1
+        let max
+        if(act[0].eventMaxStreak<act[0].eventCurStreak){
+          max = act[0].eventCurStreak
+        }else{
+          max = act[0].eventMaxStreak
+        }
+        putt["eventMaxStreak"]= max
+        
+        console.log(putt);
+      }else if(state==-1){
+       
+        putt["eventCurStreak"]= 0,         
+        console.log(putt);
+      }else{
+        putt["eventCurStreak"]= act[0].eventCurStreak
+        putt["eventMaxStreak"]= act[0].eventMaxrStreak
+      }
+      console.log(act[0])   
         axios
         .patch('/api/event/update/streak/'+act_id, putt)
         .then((res) => {
@@ -120,6 +143,11 @@ export default {
         this.forceRender()
 
 
+    },  
+    nextDay(day){//day 0-6 dias de la semana .getDay()
+      var now = new Date();    
+      now.setDate(now.getDate() + (day+(7-now.getDay())) % 7);
+      return now;
     },
     forceRender(){
       console.log("holsss", this.states.length)

@@ -150,6 +150,8 @@ methods:{
         "categoryId": this.activity.category
     },
     "eventState": 0,
+    "eventCurStreak":0,
+    "eventMaxStreak":0,
     "done":false,
     "user": {
         "userId": this.activity.user.userId
