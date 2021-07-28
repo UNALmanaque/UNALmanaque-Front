@@ -2,6 +2,7 @@ import axios from 'axios';
 import { mapActions, mapGetters } from 'vuex';
 import firebase from 'firebase';
 
+
 export default {
   data() {
     return {
@@ -19,17 +20,18 @@ export default {
         color: "#7cfc00",
         key:1
       },
-      {
-        id: -1,
-        name: "No finalizado",
-        color: "ff0000",
-        key: 0
-      },
+     
       {
         id:2,
         name: "Finalizado",
         color: "#000000",
         key: 3
+      },
+      {
+        id: -1,
+        name: "No finalizado",
+        color: "ff0000",
+        key: 0
       }
     ],
       
@@ -71,8 +73,12 @@ export default {
         .get('/api/event/find/'+this.id)
         .then((res) => {
           res.data.forEach(element => {
+<<<<<<< Updated upstream
             console.log("nombre:",element.eventName)
             console.log("nombre:",element.eventCurStreak)
+=======
+            console.log(element)
+>>>>>>> Stashed changes
             element.eventDaily.toString()
             this.activities.push(element);
           });
@@ -102,9 +108,18 @@ export default {
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
     editState(act_id, state){
+<<<<<<< Updated upstream
       if(state==2) state=2
       else state=state+1
 
+=======
+      if(state==-1) state=-1
+      else if(state==2) state==2
+      else { state=state+1
+      this.activities.forEach(activity => {
+        if(activity.eventId == act_id) activity.eventState = state;
+      })
+>>>>>>> Stashed changes
       let act = this.activities.filter(activity => activity.eventId == act_id)
 
       let putt = {
@@ -139,9 +154,9 @@ export default {
           this.$toast.info(`Cambio de estado exitoso`, { position: 'top-right' });
         })
         .catch((err) => console.log(err));
-        this.getActivities()
+      
         this.forceRender()
-
+      }
 
     },  
     nextDay(day){//day 0-6 dias de la semana .getDay()

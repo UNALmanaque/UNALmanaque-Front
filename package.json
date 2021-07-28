@@ -18,6 +18,7 @@
     "postcss": "^7.0.36",
     "stylus": "^0.54.8",
     "stylus-loader": "3",
+    "sweetalert2": "^11.0.19",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4",
     "v-calendar": "^3.0.0-alpha.5",
     "vue": "^3.0.0",
