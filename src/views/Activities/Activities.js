@@ -139,9 +139,10 @@ export default {
       this.$router.push(`edit-activity?eventId=${eventId}`);
     },
     editState(act_id, state){
-      if(state==-1) state=-1
-      else if(state==2){
-        state==2
+      if(state==-1){
+        state=-1
+      }else if(state==2){
+        state=2
       }else { state=state+1
       this.activities.forEach(activity => {
         if(activity.eventId == act_id) activity.eventState = state;
@@ -155,6 +156,7 @@ export default {
 
       if(state==2){
         putt["eventCurStreak"]= (act[0].eventCurStreak)+1
+        putt["eventDays"]= (act[0].eventDays)+1
         let max
         if(act[0].eventMaxStreak<act[0].eventCurStreak+1 || act[0].eventMaxStreak== null){
           max = act[0].eventCurStreak+1
@@ -171,6 +173,7 @@ export default {
       }else{
         putt["eventCurStreak"]= act[0].eventCurStreak
         putt["eventMaxStreak"]= act[0].eventMaxrStreak
+        putt["eventDays"]= act[0].eventDays     
       }
       console.log(act[0])   
         axios
