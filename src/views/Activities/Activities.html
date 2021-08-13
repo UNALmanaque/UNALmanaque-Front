@@ -1,9 +1,41 @@
 <div>
   <div class="d-flex flex-column align-items-center p-5">
-    <select class="form-control" @change="filter()" v-model='currentFilter'>
-      <option v-for='filter, index) in filters' :value='filter.id' :key='filter.id' >{{filter.name }}</option> 
-      </select>
+    <div class="card col-10 col-md-6">
+      <div class="card-header">
+          <p> Filtros de Actividades </p>
+          <div class="card-body">
+            <select class="form-control" @change="handleFilterChange()" v-model='filterCriteria'>
+              <option v-for='filter, index) in filterTypes' :value='filter.id' :key='filter.id' >{{filter.name }}</option> 
+              </select>
+              <br />
+            <select v-if="filterCriteria == 2" class="form-control" @change="filterByCategory()" v-model='currentFilter'>
+              <option v-for='category, index) in renderCategories' :value='category.id' :key='category.id' >{{category.name }}</option> 
+              </select>
+              <div v-if="filterCriteria == 1" class="row mb-3">
+              <div class="form-group col-6 col-md-6">
+                <label for="start-date">Fecha inicial:</label>
+                <input type="date" class="form-control" id="start-date" placeholder="" @change="filterByDate()" v-model="filterParams.startDate" />
+              </div>
+              <div class="form-group col-6 col-md-6">
+                <label for="end-date">Fecha Final:</label>
+                <input type="date" class="form-control" id="end-date" @change="filterByDate()" placeholder="" v-model="filterParams.endDate" />
+              </div>
+              </div>
+              <div v-if="filterCriteria == 3" class="row">
+                <div class="form-group col-6">
+                  <label for="prioritystart">Desde:</label>
+                  <input type="number" class="form-control" id="prioritystart" @change="filterByPriority()"  placeholder="0" v-model="filterParams.startPriority" />
+                </div>
+                <div class="form-group col-6">
+                  <label for="priorityend">Hasta:</label>
+                  <input type="number" class="form-control" id="priorityend" @change="filterByPriority()" placeholder="0" v-model="filterParams.endPriority" />
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
     <div v-for="(state, index) in states" :key="state.key">
+      <br />
       <h1>{{state.name}}</h1>
       <table class="table table-striped table-responsive">
         <thead>

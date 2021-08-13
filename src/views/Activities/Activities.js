@@ -7,6 +7,8 @@ export default {
   data() {
     return {
       activities: [],
+      immutableActivities: [],
+      categories: [],
       id: 0,
       states: [{
         id: 0,
@@ -19,13 +21,18 @@ export default {
         name: "En curso",
         color: "#7cfc00",
         key:1
-      },
-     
+      },   
       {
         id:2,
         name: "Finalizado",
         color: "#000000",
         key: 3
+      },
+      {
+        id:3,
+        name: "Finalizado (Orden)",
+        color: "#ff0000",
+        key: 4
       },
       {
         id: -1,
@@ -35,27 +42,42 @@ export default {
       }
     ],
     currentFilter:0,
-    filters: [
-      {id: 0,
-      name: "Todo"
-
-      },{
-      id: 1,
-      name: "Día",
+    filterCriteria: 0,
+    filterTypes: [
+      {
+        id: 0,
+        name: "Seleccionar"
       },
-      {id: 2,
-      name: "Semana",
+      {
+        id: 1,
+        name: "Fecha"
+      },
+      {
+        id: 2,
+        name: "Categoria"
+      },
+      {
+        id: 3,
+        name: "Prioridad"
+      }
+    ],
+    filterParams: {
+      startDate: "",
+      endDate: "",
+      startPriority: 0,
+      endPriority: 0
     },
-      {id: 3,
-      name: "Mes"
-      }], 
-      
+    filters: [{
+      id: 0,
+      name: "Seleccionar"
+    }],
     };
   },
   created() {
     
     this.getUserId();
     this.getActivities();
+    this.getCategories();
     console.log("see", this.states.length)
     this.getActivitiesUpdateDates();
     
@@ -63,6 +85,15 @@ export default {
   },
   computed: {
     ...mapGetters(['authToken']),
+    
+    renderCategories() {
+      return this.categories.map(category => {
+        return {
+          id: category.categoryId,
+          name: category.categoryName
+        }
+      });
+    }
   },
   methods: {
    
@@ -93,6 +124,7 @@ export default {
             console.log("lastDate:",element.eventLastDate)
             element.eventDaily.toString()
             this.activities.push(element);
+            this.immutableActivities.push(element);
           });
         })
         .catch((err) => {
@@ -102,6 +134,16 @@ export default {
         });
       
     },
+    getCategories() {
+      axios.get('/api/category')
+      .then(response => {
+         this.categories = response.data;
+         this.categories.push({
+          categoryId: 0,
+          categoryName: "Seleccionar"
+        })
+      });
+   },
     getActivitiesUpdateDates() {
       console.log("Update")
       axios
@@ -166,13 +208,14 @@ export default {
         putt["eventMaxStreak"]= max
         
         console.log(putt);
-      }else if(state==-1){
+      }else if(state==3){
        
-        putt["eventCurStreak"]= 0,         
+        putt["eventCurStreak"]= 0, //verificar si no mandar todo da error      
         console.log(putt);
+        state = -1
       }else{
         putt["eventCurStreak"]= act[0].eventCurStreak
-        putt["eventMaxStreak"]= act[0].eventMaxrStreak
+        putt["eventMaxStreak"]= act[0].eventMaxStreak
         putt["eventDays"]= act[0].eventDays     
       }
       console.log(act[0])   
@@ -247,6 +290,59 @@ export default {
       }
       return eventDaily
     },
+
+    filterByCategory() {  
+      if(this.currentFilter == 0) {
+        this.activities = this.immutableActivities;
+      } else {
+        this.activities = this.immutableActivities.filter(activity => {
+          return activity.category.categoryId == this.currentFilter;
+        })
+      }
+    },
+
+    handleFilterChange() {
+      if(this.filterCriteria === 0) {
+        this.filterParams.startDate = "";
+        this.filterParams.endDate = "";
+        this.filterParams.startPriority = 0;
+        this.filterParams.endPriority = 0;
+        this.activities = this.immutableActivities;
+      }
+    },
+
+    filterByPriority() {
+      if(this.filterParams.startPriority >= 0 && this.filterParams.endPriority === 0) {
+        this.activities = this.immutableActivities.filter(activity => {
+          return activity.eventPriority >= this.filterParams.startPriority;
+        })
+      } else if(this.filterParams.startPriority > 0 && this.filterParams.endPriority > 0){
+        this.activities = this.immutableActivities.filter(activity => {
+          return activity.eventPriority >= this.filterParams.startPriority &&
+          activity.eventPriority <= this.filterParams.endPriority;
+        })
+      } else {
+        this.activities = this.immutableActivities;
+      }
+    },
+
+    filterByDate() {
+      if(this.filterParams.startDate && this.filterParams.endDate) {
+        this.activities = this.immutableActivities.filter(activity => {
+          return new Date(activity.eventStartDate).getTime() >= new Date(this.filterParams.startDate).getTime() &&
+          new Date(activity.eventEndDate).getTime() <= new Date(this.filterParams.endDate).getTime();
+        })
+      } else if (this.filterParams.startDate) {
+        this.activities = this.immutableActivities.filter(activity => {
+          return new Date(this.filterParams.startDate).getTime() >= new Date(activity.eventStartDate).getTime() && 
+          new Date(this.filterParams.startDate).getTime() <= new Date(activity.eventEndDate).getTime();
+        })
+      } else {
+        this.activities = this.immutableActivities;
+      }
+    },
+
+    //Este metodo quedo deprecado
     filter() {
       
       let filtered= [];
