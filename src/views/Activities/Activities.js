@@ -21,13 +21,18 @@ export default {
         name: "En curso",
         color: "#7cfc00",
         key:1
-      },
-     
+      },   
       {
         id:2,
         name: "Finalizado",
         color: "#000000",
         key: 3
+      },
+      {
+        id:3,
+        name: "Finalizado (Orden)",
+        color: "#ff0000",
+        key: 4
       },
       {
         id: -1,
@@ -203,13 +208,14 @@ export default {
         putt["eventMaxStreak"]= max
         
         console.log(putt);
-      }else if(state==-1){
+      }else if(state==3){
        
-        putt["eventCurStreak"]= 0,         
+        putt["eventCurStreak"]= 0, //verificar si no mandar todo da error      
         console.log(putt);
+        state = -1
       }else{
         putt["eventCurStreak"]= act[0].eventCurStreak
-        putt["eventMaxStreak"]= act[0].eventMaxrStreak
+        putt["eventMaxStreak"]= act[0].eventMaxStreak
         putt["eventDays"]= act[0].eventDays     
       }
       console.log(act[0])   
