@@ -1,6 +1,12 @@
 <div>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <h1>Estadisticas</h1>
+
+    <div class="buttons">
+      <button @click="filter(5)" class="btn btn-primary">5</button>
+      <button @click="filter(10)" class="btn btn-primary">10</button>
+      <button @click="filter(15)" class="btn btn-primary">15</button>
+    </div>
     <div class="card" v-for="(activity, index) in activities" :key="activity.id">
          <h3 class="card-title">{{activity.eventName}}</h3>     
         <div class="card-body">

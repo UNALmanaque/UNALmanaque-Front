@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       id:0,
+      max:5,
       activities: [],
       chartOptions2: {
         labels: ['Racha Actual']
@@ -88,6 +89,9 @@ export default {
       maxStreak==0 || maxStreak == null? per = 0 : per = (curStreak/maxStreak)*100
      return [per];
     }
+  },
+  filter(num) {
+    this.activities = this.activities.slice(0, num)
   },
   repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
     let dates = []
