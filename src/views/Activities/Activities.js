@@ -29,12 +29,6 @@ export default {
         key: 3
       },
       {
-        id:3,
-        name: "Finalizado (Orden)",
-        color: "#ff0000",
-        key: 4
-      },
-      {
         id: -1,
         name: "No finalizado",
         color: "ff0000",
@@ -43,6 +37,7 @@ export default {
     ],
     currentFilter:0,
     filterCriteria: 0,
+    
     filterTypes: [
       {
         id: 0,
@@ -191,6 +186,12 @@ export default {
       })
       let act = this.activities.filter(activity => activity.eventId == act_id)
 
+      if(state==4){//debug No finalizar
+        state=3;
+      }else if(state==5){//debug Reiniciar
+        state=4
+      }
+
       let putt = {
         "eventState": state,
         "eventId": act[0].id
@@ -209,10 +210,17 @@ export default {
         
         console.log(putt);
       }else if(state==3){
-       
-        putt["eventCurStreak"]= 0, //verificar si no mandar todo da error      
+        putt["eventState"]= -1
+        putt["eventCurStreak"]= 0 //verificar si no mandar todo da error     
+        putt["eventMaxStreak"]= act[0].eventMaxStreak
+        putt["eventDays"]= act[0].eventDays   
         console.log(putt);
-        state = -1
+      }else if(state==4){
+        putt["eventState"]= 0//vuelve a por hacer
+        putt["eventCurStreak"]= act[0].eventCurStreak //verificar si no mandar todo da error     
+        putt["eventMaxStreak"]= act[0].eventMaxStreak
+        putt["eventDays"]= act[0].eventDays   
+        console.log(putt);
       }else{
         putt["eventCurStreak"]= act[0].eventCurStreak
         putt["eventMaxStreak"]= act[0].eventMaxStreak
@@ -230,7 +238,7 @@ export default {
         this.forceRender()
       }
 
-    },  
+    },
     nextDate(act_id,week){// next date of completion day 0-6 dias de la semana .getDay()
       let act = this.activities.filter(activity => activity.eventId == act_id)
 

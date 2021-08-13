@@ -53,7 +53,9 @@
             <th scope="col">Numero de semanas</th>
             <th scope="col">Editar</th>
             <th scope="col">Eliminar</th>
-            <th scope="col">Estado</th>
+            <th scope="col">No Finalizar</th>
+            <th scope="col">Reiniciar</th>
+            <th scope="col">Estado</th>           
           </tr>
         </thead>
         <tbody>
@@ -82,6 +84,8 @@
             <td>{{activity.eventWeek}}</td>
             <td><a href="#" @click="editActivity(activity.eventId)"><i class="fa fa-edit" /></a></td>
             <td><a href="#" @click="deleteActivity(activity.eventId)"><i class="fa fa-trash" /></a></td>
+            <td><a href="#" @click="editState(activity.eventId, 3)"><i class="fas fa-chevron-down"></i></a></td>
+            <td><a href="#" @click="editState(activity.eventId, 4)"><i class="fas fa-chevron-up"></i></a></td>
             <td><button @click="editState(activity.eventId, state.id)" class="btn btn-primary">{{state.name}}</button>
             </td>
           </tr>
