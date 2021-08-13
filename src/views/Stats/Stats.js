@@ -92,6 +92,9 @@ export default {
   },
   filter(num) {
     this.activities = this.activities.slice(0, num)
+    this.activities.forEach(element => {
+      element.id = element.id+1;       
+    });
   },
   repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
     let dates = []
