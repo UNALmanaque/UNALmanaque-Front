@@ -1,0 +1,30 @@
+<div>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <h1>Estadisticas</h1>
+    <div class="card" v-for="(activity, index) in activities" :key="activity.id">
+         <h3 class="card-title">{{activity.eventName}}</h3>     
+        <div class="card-body">
+         
+        <div id="chart" style="text-align: center;">
+          <apexchart type="radialBar" height="225" width="225" :options="chartOptions2" :series="getStreak(activity.eventCurStreak, activity.eventMaxStreak)"></apexchart>
+          <h2>{{activity.eventCurStreak}} días</h2> 
+        </div>
+        <div class="maxStreakText">
+          <h4>Racha Máxima</h4>
+          <span class="glyphicon glyphicon-fire"></span>
+          {{activity.eventMaxStreak}} días
+        </div>
+        <div class="maxStreakText">
+          <h4>Días Totales</h4>
+         <span class="glyphicon glyphicon-scale"></span>
+         {{activity.eventDays}} días
+        </div>
+      <!--  :(  <div id="chart">
+          <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
+        </div> --->
+  
+      </div>
+    </div> 
+      
+  
+</div>

@@ -1,0 +1,29 @@
+.maxStreakText {
+    font-size: 30px;
+    align-items: center;
+    margin-top: 40px;
+    padding: 30px;
+}
+.card-body {
+    display: flex;
+    flex:auto;
+  
+}
+.card-body h4 {
+    font-weight: bold;
+}
+.card-body h2 {
+    font-weight: bold;
+}
+.card h3 {
+    font-weight: bolder;
+    font-size: 24px;
+    margin: 10px;
+}
+.card {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 1.5%;
+    margin-bottom: 1.5%;
+    text-align: left;
+}

@@ -10,6 +10,7 @@ import Profile from '@/views/Profile';
 import Activity from '@/views/Activity.vue';
 import Calendar from '@/views/Calendar.vue';
 import EditActivity from '@/views/EditActivity';
+import Stats from '@/views/Stats';
 import Activities from '@/views/Activities';
 import User_Information from '@/views/User_Information';
 
@@ -60,6 +61,14 @@ const router = createRouter({
       path: '/edit-activity',
       name: 'Edit Activity',
       component: EditActivity,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/stats',
+      name: 'Stats',
+      component: Stats,
       meta: {
         requiresAuth: true,
       },
