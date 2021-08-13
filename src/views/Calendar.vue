@@ -18,9 +18,11 @@
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
               v-for="(attr, index) in attributes"
+              :id="attr.customData.id"
               :key="index"
               class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
               :style="`background: ${attr.customData.color};`"
+              @click="handleActivityInfo"
             >
               {{ attr.customData.title }}
             </p>
@@ -28,6 +30,27 @@
         </div>
       </template>
     </v-calendar>
+    <br />
+    <div v-if="activity.title" class="row mb-3">
+      <div class="col-5 col-md-4"></div>
+      <div class="col-2 col-md-4">
+        <br />
+            <div class="card-header">
+                <br />
+                <p class="text-2xl"> Detalles de Actividad </p>
+                </div>
+                <div class="card-body">
+                  <p><b>Titulo:</b> {{ activity.title }}</p>
+                  <p><b>Racha Actual:</b> {{ activity.eventCurStreak }}</p>
+                  <p><b>Racha Maxima:</b> {{ activity.eventMaxStreak }}</p>
+                  <p><b>Categoria:</b> {{ activity.category }}</p>
+                  <p><b>Prioridad:</b> {{ activity.priority }}</p>
+                </div>
+            
+      </div>
+      <div class="col-5 col-md-4"></div>
+    </div>
+
   </div>
 </template>
 
@@ -47,7 +70,15 @@ export default {
         weekdays: 'WWW',
       },
       attributes: [],
-      loading: true
+      loading: true,
+      activity: {
+        title: "",
+        eventCurStreak: "",
+        eventMaxStreak: "",
+        priority: "",
+        category: "",
+        id: ""
+      }
     };
   },
   computed: {
@@ -66,6 +97,14 @@ export default {
           this.$toast.error(err.response.data, { position: 'top-right' });
           setTimeout(this.$toast.clear, 3000);
         });
+      }
+    },
+    handleActivityInfo(e){
+      let activity = this.attributes.find(attr => attr.customData.id == e.target.id);
+      
+      if(activity) {
+         console.log("Activity info :", activity);
+        this.activity = activity.customData;
       }
     },
     getWeekArray(activityDays) {
@@ -103,6 +142,11 @@ export default {
               customData: {
                 title: activity.eventName,
                 color: activity.eventColor,
+                eventCurStreak: activity.eventCurStreak,
+                eventMaxStreak: activity.eventMaxStreak,
+                category: activity.category.categoryName,
+                priority: activity.eventPriority,
+                id: activity.eventId
               },
               dates: {
                 start: activity.eventStartDate,
