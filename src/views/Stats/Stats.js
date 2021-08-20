@@ -4,8 +4,10 @@ export default {
   data() {
     return {
       id:0,
-      max:5,
       activities: [],
+      shownactivities:[],
+      page: 1,
+      num: 5,
       chartOptions2: {
         labels: ['Racha Actual']
         
@@ -47,7 +49,6 @@ export default {
   created(){
     this.getUserId();
     this.getActivities();
-    
   },
   methods: {
     getUserId(){
@@ -88,13 +89,33 @@ export default {
       let per
       maxStreak==0 || maxStreak == null? per = 0 : per = (curStreak/maxStreak)*100
      return [per];
-    }
+    },
+    filterNum:function (num, reset) {
+      if(reset){
+        this.page=1;
+      }
+      console.log(this.page)
+      this.shownactivities= []
+      this.num  = num;
+      let last = this.page*this.num
+      let first = last -this.num
+    this.shownactivities = this.activities.slice(first, last)
   },
-  filter(num) {
-    this.activities = this.activities.slice(0, num)
-    this.activities.forEach(element => {
-      element.id = element.id+1;       
-    });
+    prevP(){
+      if(this.page>1){
+        this.page=this.page-1       
+      }
+      this.filterNum(this.num)
+    },
+    nextP(){
+      let max = Math.ceil(this.activities.length/this.num)
+      
+      if(this.page<max){
+        this.page=this.page+1        
+      }
+      this.filterNum(this.num)
+    }
+  
   },
   repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
     let dates = []

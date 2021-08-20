@@ -2,12 +2,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <h1>Estadisticas</h1>
 
-    <div class="buttons">
-      <button @click="filter(5)" class="btn btn-primary">5</button>
-      <button @click="filter(10)" class="btn btn-primary">10</button>
-      <button @click="filter(15)" class="btn btn-primary">15</button>
+    <div >
+      <button class="buttons" v-if="page>1" @click="prevP()">←</button>
+      <button class="buttons" @click="filterNum(5, true)" >5</button>
+      <button class="buttons" @click="filterNum(10, true)" >10</button>
+      <button class="buttons" @click="filterNum(15, true)" >15</button>
+      <button class="buttons" @click="nextP()">→</button>
     </div>
-    <div class="card" v-for="(activity, index) in activities" :key="activity.id">
+    <div class="card" v-for="(activity, index) in shownactivities">
          <h3 class="card-title">{{activity.eventName}}</h3>     
         <div class="card-body">
          
