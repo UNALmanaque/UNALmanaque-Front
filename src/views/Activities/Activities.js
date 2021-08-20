@@ -200,6 +200,18 @@ export default {
       if(state==2){
         putt["eventCurStreak"]= (act[0].eventCurStreak)+1
         putt["eventDays"]= (act[0].eventDays)+1
+        //Agregando a mi arreglo de fechas: 
+        var now = new Date();
+        let aux = {
+          "eventLastDate": now,
+        }
+        axios
+        .patch('/api/event/update/completed/'+act_id, aux)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+        // es hasta aca gracias no lo toques -L
         let max
         if(act[0].eventMaxStreak<act[0].eventCurStreak+1 || act[0].eventMaxStreak== null){
           max = act[0].eventCurStreak+1
@@ -241,8 +253,7 @@ export default {
     },
     nextDate(act_id,week){// next date of completion day 0-6 dias de la semana .getDay()
       let act = this.activities.filter(activity => activity.eventId == act_id)
-
-      var now = new Date();
+      var now = new Date(); 
       let numDay = now.getDay
       //if(numDay==0) numDay = 7
       for (numDay; numDay < week.length; numDay++) {
