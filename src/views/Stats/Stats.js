@@ -9,41 +9,8 @@ export default {
       page: 1,
       num: 5,
       chartOptions2: {
-        labels: ['Racha Actual']
-        
+        labels: ['Racha Actual'] 
       },
-      series: [{
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }],
-    /*chartOptions: {
-      chart: {
-        height: 350,
-        type: 'line',
-        zoom: {
-          enabled: false
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'straight'
-      },
-      title: {
-        text: 'Product Trends by Month',
-        align: 'left'
-      },
-      grid: {
-        row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5
-        },
-      },
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-      }
-    },*/
     };
   },
   created(){
@@ -114,22 +81,104 @@ export default {
         this.page=this.page+1        
       }
       this.filterNum(this.num)
-    }
+    },
+    makeDaysChart(activity){
+      let start = new Date(activity.eventStartDate)
+      start.setDate(start.getDate() + 1); 
+      let end = new Date(activity.eventEndDate)
+      end.setDate(end.getDate() + 1);
+      let ylabe = this.repetitionDates(start, end, activity.eventDaily, true)
+      //if(activity.eventDaily){}
+      let chartOptions = {
+        chart : {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: name,
+          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: ylabe,
+        }
+      }
+      return chartOptions
+    },
+    makeSeriesChart(activity){
+      let start = new Date(activity.eventStartDate)
+      start.setDate(start.getDate() + 1); 
+      let end = new Date(activity.eventEndDate)
+      end.setDate(end.getDate() + 1);
+      let dates = this.repetitionDates(start, end, activity.eventDaily, false)
+      let rachas = []
+      let completedDates = activity.eventCompletionList;
+      console.log(completedDates)
+      let i=0
+      let contador=0
+      dates.forEach(date => { 
+        let date2 = new Date(completedDates[i]);
+        date2.setDate(date2.getDate() + 1); 
+        if (Math.abs(date2 - date) < (1000 * 60 * 60 * 24)) {
+           contador = contador +1
+          i= i+1
+          console.log("mismo dia", date, date2)
+        }
+        else {
+          contador=0
+        }
+        rachas.push(contador)
+      })
+
+     let series= [{
+        name:"Racha",
+        data: rachas
+    }]
+    return series
+    },
+   
+    repetitionDates(start, end, eventDaily, label){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
+      let dates = []
+      eventDaily = this.fixEventDaily(eventDaily)
+      let date=start;
+      while((end-date)>=(1000 * 60 * 60 * 24)){
+        let i
+        date.getDay == 6 ?  i = 0 : i = date.getDay()-1
+       
+        if(eventDaily.charAt(i) == '1') {
+          dates.push(new Date(date)) // LAS FECHAS SE MANDAN POR REFERENCIA !!! TE ODIO !!!
+        }
+        date.setDate(date.getDate() + 1);
+      }
+      if(label) {
+      let labels = dates.map(i => new Date(i).getDate().toString() + "/" +new Date(i).getMonth().toString());
+      //current_datetime. + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()
+      return labels }
+      return dates
+    },
+    fixEventDaily(eventDaily){
+      eventDaily = eventDaily.toString()
+      while(eventDaily.length<7){
+        
+        eventDaily = "0" +eventDaily
+      }
+      return eventDaily
+    },
   
   },
-  repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
-    let dates = []
-    eventDaily = this.fixEventDaily(eventDaily)
-    let date=start;
-    while((end-date)>=(1000 * 60 * 60 * 24)){
-      let i
-      date.getDay == 6 ?  i = 0 : i = date.getDay()-1
-     
-      if(eventDaily.charAt(i) == '1') {
-        dates.push(new Date(date)) // LAS FECHAS SE MANDAN POR REFERENCIA !!! TE ODIO !!!
-      }
-      date.setDate(date.getDate() + 1);
-    }
-    return dates
-  },
+  
 };

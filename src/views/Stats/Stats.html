@@ -27,9 +27,9 @@
          <span class="glyphicon glyphicon-scale"></span>
          {{activity.eventDays}} días
         </div>
-      <!--  :(  <div id="chart">
-          <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
-        </div> --->
+        <div id="chart">
+          <apexchart type="line" height="350" :options="makeDaysChart(activity)" :series="makeSeriesChart(activity)"></apexchart>
+        </div> 
   
       </div>
     </div> 
