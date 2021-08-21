@@ -12,6 +12,7 @@
         <p>Email: {{user.email}}</p>
         <p>Fecha de nacimiento: {{user.age}}</p>
       </div>
+      <div class="box" v-for="(activity, index) in filter()" v-draggable @drag-start="onStart" @drag-stop="onStop">{{activity.eventName}}</div>
     </div>
   </div>
 </div>

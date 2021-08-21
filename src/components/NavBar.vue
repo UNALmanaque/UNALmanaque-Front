@@ -7,7 +7,7 @@
         </div>
         <div class="col-11 d-flex flex-row">
           <div class="nav-item" :class="{ active: route === 'Home' }">
-            <router-link class="nav-link" to="/">Home</router-link>
+            <router-link class="nav-link" to="/home">Home</router-link>
           </div>
           <div class="nav-item" :class="{ active: route === 'Profile' }">
             <router-link class="nav-link" to="/profile">Profile</router-link>
