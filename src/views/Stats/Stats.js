@@ -101,10 +101,10 @@ export default {
           enabled: false
         },
         stroke: {
-          curve: 'straight'
+          curve: 'smooth'
         },
         title: {
-          text: name,
+          text: "Días cumplidos",
           align: 'left'
         },
         grid: {
