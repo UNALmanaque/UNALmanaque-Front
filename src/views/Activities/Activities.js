@@ -54,6 +54,10 @@ export default {
       {
         id: 3,
         name: "Prioridad"
+      },
+      {
+        id: 4,
+        name: "Cercania"
       }
     ],
     filterParams: {
@@ -66,6 +70,20 @@ export default {
       id: 0,
       name: "Seleccionar"
     }],
+    currentDateFilter:0,
+    filtersDate: [
+      {id: 0,
+      name: "Todo"
+      },
+      {id: 1,
+      name: "Día",
+      },
+      {id: 2,
+      name: "Semana",
+      },
+      {id: 3,
+      name: "Mes"
+      }],
     };
   },
   created() {
@@ -362,12 +380,11 @@ export default {
     },
 
     //Este metodo quedo deprecado
-    filter() {
-      
+    filterDatesAround() {
       let filtered= [];
       let current = new Date();
       
-      if(this.currentFilter==1) { //Filtro por dia 
+      if(this.currentDateFilter==1) { //Filtro por dia 
         this.activities.forEach(activity => {
         let start = new Date(activity.eventStartDate)
         start.setDate(start.getDate() + 1);        
@@ -390,7 +407,7 @@ export default {
 
         })
       }
-      else if(this.currentFilter==2){ //Filtro por semana (en realidad son 4 dias alrededor son las 4am no esperes mucho de mi.....)
+      else if(this.currentDateFilter==2){ //Filtro por semana (en realidad son 4 dias alrededor son las 4am no esperes mucho de mi.....)
         this.activities.forEach(activity => {
           let start = new Date(activity.eventStartDate)
           start.setDate(start.getDate() + 1);        
@@ -413,7 +430,7 @@ export default {
   
           })
       }
-      else if (this.currentFilter==3){ //Filtro por mes
+      else if (this.currentDateFilter==3){ //Filtro por mes
         let currentMonth = current.getMonth()
         console.log(currentMonth)
         this.activities.forEach(activity => {

@@ -31,6 +31,13 @@
                   <input type="number" class="form-control" id="priorityend" @change="filterByPriority()" placeholder="0" v-model="filterParams.endPriority" />
                 </div>
               </div>
+              <div v-if="filterCriteria == 4" class="row">               
+                <div class="form-group col-6">
+                  <select class="form-control" @change="filterDatesAround()" v-model='currentDateFilter'>
+                    <option v-for='(filter, index) in filtersDate' :value='filter.id' :key='filter.id' >{{filter.name }}</option> 
+                  </select>
+                </div>
+              </div>
           </div>
       </div>
     </div>
