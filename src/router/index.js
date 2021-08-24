@@ -13,6 +13,7 @@ import EditActivity from '@/views/EditActivity';
 import Stats from '@/views/Stats';
 import Activities from '@/views/Activities';
 import User_Information from '@/views/User_Information';
+import Today_Activities from '@/views/Today_Activities';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -53,6 +54,14 @@ const router = createRouter({
       path: '/activities',
       name: 'Activities',
       component: Activities,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/today_activities',
+      name: 'Today Activities',
+      component: Today_Activities,
       meta: {
         requiresAuth: true,
       },

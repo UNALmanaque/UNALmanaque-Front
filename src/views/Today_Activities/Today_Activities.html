@@ -1,0 +1,42 @@
+<div>
+  <div class="d-flex flex-column align-items-center p-5">
+    <div v-for="(state, index) in states" :key="state.key">
+      <br />
+      <h1>{{state.name}}</h1>
+      <table class="table table-striped table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Prioridad</th>
+            <th scope="col">Repeticion</th>
+            <th scope="col">No Finalizar</th>
+            <th scope="col">Reiniciar</th>
+            <th scope="col">Estado</th>           
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(activity, index) in activities.filter(activity => activity.eventState == state.id)" :key="activity.eventId">
+            <td>{{activity.eventName}}</td>
+            <td>{{activity.eventPriority}}</td>
+            <td v-if="activity.eventDaily">
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(0) == '1', 'text-success': activity.eventDaily[0] == 1}">L</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(1) == '1', 'text-success': activity.eventDaily[1] == 1}">M</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(2) == '1', 'text-success': activity.eventDaily[2] == 1}">M</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(3) == '1', 'text-success': activity.eventDaily[3] == 1}">J</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(4) == '1', 'text-success': activity.eventDaily[4] == 1}">V</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(5) == '1', 'text-success': activity.eventDaily[5] == 1}">S</span>
+              <span :class="{'text-danger': fixEventDaily(activity.eventDaily).charAt(6) == '1', 'text-success': activity.eventDaily[6] == 1}">D</span>
+            </td>
+            <td v-else>
+              -
+            </td>
+            <td><a href="#" @click="editState(activity.eventId, 3)"><i class="fas fa-chevron-down"></i></a></td>
+            <td><a href="#" @click="editState(activity.eventId, 4)"><i class="fas fa-chevron-up"></i></a></td>
+            <td><button @click="editState(activity.eventId, state.id)" class="btn btn-primary">{{state.name}}</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
