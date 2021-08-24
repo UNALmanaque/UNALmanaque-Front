@@ -1,0 +1,10 @@
+.columsStates {
+    display: flex;
+    padding-top: 40px;
+}
+
+.division {
+    border: 2px solid rgb(206, 206, 206);
+    padding: 5px;
+
+}

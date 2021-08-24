@@ -1,7 +1,6 @@
 <div>
-  <div class="d-flex flex-column align-items-center p-5">
-    <div v-for="(state, index) in states" :key="state.key">
-      <br />
+  <div class="columsStates">
+    <div class="division" v-for="(state, index) in states" :key="state.key">
       <h1>{{state.name}}</h1>
       <table class="table table-striped table-responsive">
         <thead>
@@ -15,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(activity, index) in activities.filter(activity => activity.eventState == state.id)" :key="activity.eventId">
+          <tr v-for="(activity, index) in filterToday().filter(activity => activity.eventState == state.id)" :key="activity.eventId">
             <td>{{activity.eventName}}</td>
             <td>{{activity.eventPriority}}</td>
             <td v-if="activity.eventDaily">

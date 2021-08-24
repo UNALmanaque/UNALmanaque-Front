@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       activities: [],
+      todayActivities: [],
       immutableActivities: [],
       categories: [],
       id: 0,
@@ -380,11 +381,11 @@ export default {
     },
 
     //Este metodo quedo deprecado
-    filterDatesAround() {
+    filterToday() {
       let filtered= [];
       let current = new Date();
       
-      if(this.currentDateFilter==1) { //Filtro por dia 
+      //Filtro por dia 
         this.activities.forEach(activity => {
         let start = new Date(activity.eventStartDate)
         start.setDate(start.getDate() + 1);        
@@ -402,66 +403,10 @@ export default {
           if(Math.abs(current-start) < (1000 * 60 * 60 * 24) || Math.abs(current-end) < (1000 * 60 * 60 * 24))
             filtered.push(activity)
 
-        }
-        
+        }     
 
         })
-      }
-      else if(this.currentDateFilter==2){ //Filtro por semana (en realidad son 4 dias alrededor son las 4am no esperes mucho de mi.....)
-        this.activities.forEach(activity => {
-          let start = new Date(activity.eventStartDate)
-          start.setDate(start.getDate() + 1);        
-          let end = new Date(activity.eventEndDate)
-          end.setDate(end.getDate() + 1);
-          if(activity.eventDaily) {
-            let skip=true //el forEach no tiene break >:c
-            this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
-              if(Math.abs(current-day) < (1000 * 60 * 60 * 24 * 4) && skip){
-              filtered.push(activity)
-              skip=false
-            }
-            })
-          }else {
-            if(Math.abs(current-start) < (1000 * 60 * 60 * 24 * 4) || Math.abs(current-end) < (1000 * 60 * 60 * 24 * 4))
-              filtered.push(activity)
-  
-          }
-          
-  
-          })
-      }
-      else if (this.currentDateFilter==3){ //Filtro por mes
-        let currentMonth = current.getMonth()
-        console.log(currentMonth)
-        this.activities.forEach(activity => {
-          let start = new Date(activity.eventStartDate)
-          start.setDate(start.getDate() + 1);        
-          let end = new Date(activity.eventEndDate)
-          end.setDate(end.getDate() + 1);
-
-          if(activity.eventDaily) {
-            let skip=true //el forEach no tiene break >:c
-            this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
-              if(day.getMonth() == currentMonth && skip){
-              filtered.push(activity)
-              skip=false
-            }
-            })
-          }else {
-            
-            if(start.getMonth() == currentMonth || end.getMonth() == currentMonth)
-              filtered.push(activity)
-  
-          }
-          
-  
-          })
-      }
-      else {
-        this.getActivities()
-        filtered=this.activities
-      }
-      this.activities=filtered
+      return filtered
     },
     repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
       let dates = []
@@ -477,6 +422,23 @@ export default {
         date.setDate(date.getDate() + 1);
       }
       return dates
+    },
+    getTodayActivities(){
+      console.log("today")
+      var now = new Date()
+      let numDay = now.getDay
+      if(numDay==0){
+        numDay=7
+      }
+      numDay-=1
+      this.activities.forEach(activity => {
+        if(this.fixEventDaily(activity.eventDaily).charAt(1) == '1'){
+          this.todayActivities.push(activity);
+        }
+        this.todayActivities.push(activity);
+      })
+      console.log("today")
+
     },
     sampleActivities(){
       for (let index = 0; index < 5; index++) {

@@ -226,7 +226,7 @@ export default {
         axios
         .patch('/api/event/update/completed/'+act_id, aux)
         .then((res) => {
-          console.log(res);
+          console.log("patch",res);
         })
         .catch((err) => console.log(err));
         // es hasta aca gracias no lo toques -L

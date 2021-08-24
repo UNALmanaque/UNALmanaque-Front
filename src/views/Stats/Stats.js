@@ -117,6 +117,7 @@ export default {
           categories: ylabe,
         }
       }
+      console.log("Char:",ylabe);
       return chartOptions
     },
     makeSeriesChart(activity){
