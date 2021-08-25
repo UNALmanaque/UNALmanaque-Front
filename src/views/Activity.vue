@@ -36,7 +36,7 @@
               <div class="form-group col-8">
                 <label for="category">Categoria:</label>
            <select class="form-control" v-model='activity.category'>
-            <option v-for='data in activity.categories' :value='data.categoryId' :key='data.categoryId'>{{ data.categoryName }}</option> <!--toca cambiarlo cuando el get the categories funcione :c-->
+            <option v-for='data in activity.categories' :value='data.categoryId' :key='data.categoryId'>{{ data.categoryName }}</option> 
             </select>
               </div>
               

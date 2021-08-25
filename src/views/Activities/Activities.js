@@ -93,8 +93,6 @@ export default {
     this.getCategories();
     console.log("see", this.states.length)
     this.getActivitiesUpdateDates();
-    
-    //this.sampleActivities();
   },
   computed: {
     ...mapGetters(['authToken']),
@@ -126,15 +124,11 @@ export default {
       }
     },
     getActivities() {
-      console.log("Ativities")
       this.activities=[]
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
           res.data.forEach(element => {
-            console.log("nombre:",element.eventName)
-            console.log("curStreak:",element.eventCurStreak)
-            console.log("lastDate:",element.eventLastDate)
             element.eventDaily.toString()
             this.activities.push(element);
             this.immutableActivities.push(element);
@@ -158,14 +152,12 @@ export default {
       });
    },
     getActivitiesUpdateDates() {
-      console.log("Update")
       axios
         .get('/api/event/find/'+this.id)
         .then((res) => {
           res.data.forEach(element => {
             this.nextDate(element.eventId,element.eventDaily.toString())//seteamos la proxima fecha de finalizacion
             this.stateFinalVerfication(element.eventId)
-            console.log("holi")
           });
         })
         .catch((err) => {
@@ -176,18 +168,14 @@ export default {
       
     },
     deleteActivity(id){
-      //Here should go a post method
-      console.log('activity to delete: ', id);
       axios.delete('/api/event/delete/'+id)
       .then( res => {
-        this.$toast.info(`Borrado exitoso`, { position: 'top-right' });
         console.log(res)
+        this.$toast.info(`Borrado exitoso`, { position: 'top-right' });
         this.activities= []
         this.getActivities()
         
       });
-      //call the get activity again
-      //getActivities()
     },
     editActivity(activity, eventId){
       
@@ -218,7 +206,7 @@ export default {
       if(state==2){
         putt["eventCurStreak"]= (act[0].eventCurStreak)+1
         putt["eventDays"]= (act[0].eventDays)+1
-        //Agregando a mi arreglo de fechas: 
+        //Agregando al arreglo de fechas: 
         var now = new Date();
         let aux = {
           "eventLastDate": now,
@@ -229,7 +217,6 @@ export default {
           console.log("patch",res);
         })
         .catch((err) => console.log(err));
-        // es hasta aca gracias no lo toques -L
         let max
         if(act[0].eventMaxStreak<act[0].eventCurStreak+1 || act[0].eventMaxStreak== null){
           max = act[0].eventCurStreak+1
@@ -237,26 +224,21 @@ export default {
           max = act[0].eventMaxStreak
         }
         putt["eventMaxStreak"]= max
-        
-        console.log(putt);
       }else if(state==3){
         putt["eventState"]= -1
-        putt["eventCurStreak"]= 0 //verificar si no mandar todo da error     
+        putt["eventCurStreak"]= 0    
         putt["eventMaxStreak"]= act[0].eventMaxStreak
-        putt["eventDays"]= act[0].eventDays   
-        console.log(putt);
+        putt["eventDays"]= act[0].eventDays  
       }else if(state==4){
-        putt["eventState"]= 0//vuelve a por hacer
-        putt["eventCurStreak"]= act[0].eventCurStreak //verificar si no mandar todo da error     
+        putt["eventState"]= 0
+        putt["eventCurStreak"]= act[0].eventCurStreak   
         putt["eventMaxStreak"]= act[0].eventMaxStreak
         putt["eventDays"]= act[0].eventDays   
-        console.log(putt);
       }else{
         putt["eventCurStreak"]= act[0].eventCurStreak
         putt["eventMaxStreak"]= act[0].eventMaxStreak
         putt["eventDays"]= act[0].eventDays     
       }
-      console.log(act[0])   
         axios
         .patch('/api/event/update/streak/'+act_id, putt)
         .then((res) => {
@@ -283,7 +265,6 @@ export default {
         }
       }
       now.setDate(now.getDate() + (numDay+(7-now.getDay())) % 7);
-      //console.log("fecha:",now)
       
       let putt = {
         "eventLastDate": now,
@@ -294,7 +275,6 @@ export default {
         .patch('/api/event/update/lastDate/'+act_id, putt)
         .then((res) => {
           console.log(res);
-          //this.$toast.info(`Cambio de estado exitoso`, { position: 'top-right' });
         })
         .catch((err) => console.log(err));
 
@@ -303,7 +283,6 @@ export default {
       let act = this.activities.filter(activity => activity.eventId == act_id)
       let now = new Date();
       let actDate = new Date(act[0].evenLastDay)
-      //console.log("fechas:",now, actDate)
       if(now>actDate){
         if(act[0].eventState==0 || act[0].eventState==1){
           this.editState(act_id,-1)
@@ -314,7 +293,6 @@ export default {
       console.log("holsss", this.states.length)
       this.states.forEach(state => {
         state.key+=1;
-        //console.log(state.key)
       });
       
     },
@@ -391,7 +369,7 @@ export default {
         let end = new Date(activity.eventEndDate)
         end.setDate(end.getDate() + 1);
         if(activity.eventDaily) {
-          let skip=true //el forEach no tiene break >:c
+          let skip=true
           this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
             if(Math.abs(current-day) < (1000 * 60 * 60 * 24) && skip){
             filtered.push(activity)
@@ -407,14 +385,14 @@ export default {
 
         })
       }
-      else if(this.currentDateFilter==2){ //Filtro por semana (en realidad son 4 dias alrededor son las 4am no esperes mucho de mi.....)
+      else if(this.currentDateFilter==2){ //Filtro por semana (4 dias alrededor)
         this.activities.forEach(activity => {
           let start = new Date(activity.eventStartDate)
           start.setDate(start.getDate() + 1);        
           let end = new Date(activity.eventEndDate)
           end.setDate(end.getDate() + 1);
           if(activity.eventDaily) {
-            let skip=true //el forEach no tiene break >:c
+            let skip=true
             this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
               if(Math.abs(current-day) < (1000 * 60 * 60 * 24 * 4) && skip){
               filtered.push(activity)
@@ -440,7 +418,7 @@ export default {
           end.setDate(end.getDate() + 1);
 
           if(activity.eventDaily) {
-            let skip=true //el forEach no tiene break >:c
+            let skip=true 
             this.repetitionDates(start, end, activity.eventDaily).forEach(day => {
               if(day.getMonth() == currentMonth && skip){
               filtered.push(activity)
@@ -463,7 +441,7 @@ export default {
       }
       this.activities=filtered
     },
-    repetitionDates(start, end, eventDaily){ // AMMMMMMMMMMMM esto  es porque necesito todas las fechas de las actividades que se repiten para filtrarlas bien
+    repetitionDates(start, end, eventDaily){ // Calcula las fechas de repeticion desde la fecha de inicio
       let dates = []
       eventDaily = this.fixEventDaily(eventDaily)
       let date=start;
@@ -472,7 +450,7 @@ export default {
         date.getDay == 6 ?  i = 0 : i = date.getDay()-1
        
         if(eventDaily.charAt(i) == '1') {
-          dates.push(new Date(date)) // LAS FECHAS SE MANDAN POR REFERENCIA !!! TE ODIO !!!
+          dates.push(new Date(date))
         }
         date.setDate(date.getDate() + 1);
       }

@@ -19,7 +19,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'Login',
       component: Login,
       meta: {
@@ -122,15 +122,6 @@ router.beforeEach((to, from, next) => {
   } else {
     return next();
   }
-  /* if (to.meta.requiresAuth) {
-    if (!store.getters.authToken) {
-      return next({ path: '/login' });
-    } else {
-      return next();
-    }
-  } else {
-    return next();
-  }*/
 });
 
 export default router;
