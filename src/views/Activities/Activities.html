@@ -1,8 +1,10 @@
 <div>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <h1>Lista de actividades</h1>
   <div class="d-flex flex-column align-items-center p-5">
     <div class="card col-10 col-md-6">
       <div class="card-header">
-          <p> Filtros de Actividades </p>
+          <h4> Filtros de Actividades </h4>
           <div class="card-body">
             <select class="form-control" @change="handleFilterChange()" v-model='filterCriteria'>
               <option v-for='filter, index) in filterTypes' :value='filter.id' :key='filter.id' >{{filter.name }}</option> 

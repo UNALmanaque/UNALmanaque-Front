@@ -1,9 +1,11 @@
 <template>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <h1>Lista de actividades</h1>
   <div class="d-flex flex-column align-items-center">
     <h3>Crear activididad</h3>
     <div class="card col-10 col-md-6">
       <div class="card-header">
-        <h5>Nueva Actividad:</h5>
+        <h4>Introduzca los datos de la actividad:</h4>
       </div>
     </div>
     <div class="card col-10 col-md-6">

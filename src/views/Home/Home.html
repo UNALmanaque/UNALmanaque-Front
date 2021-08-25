@@ -1,15 +1,17 @@
 <div>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <h1>Página principal</h1>
   <div class="d-flex flex-column align-items-center">
     <h3>Bienvenido, {{user.name}} {{user.lastname}}</h3>
     <div class="card col-10 col-md-6">
       <div class="card-header">
-        <h5>Tu información:</h5>
+        <h5 class="fw-bold">Tu información:</h5>
         <p class="mr-0">
           <router-link to="/profile">Editar</router-link>
         </p>
       </div>
       <div class="card-body">
-        <p>Email: {{user.email}}</p>
+        <p class="fw-bold">Email: {{user.email}}</p>
         <p>Fecha de nacimiento: {{user.age}}</p>
       </div>
       <div class="box" v-for="(activity, index) in filter()" v-draggable @drag-start="onStart" @drag-stop="onStop">{{activity.eventName}}</div>

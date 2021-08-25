@@ -1,37 +1,38 @@
 <template>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <div class="main-nav pt-4 pb-3">
     <div class="container-fluid">
       <div class="row">
         <div class="title-container col-1">
-          <p class="app-title">App</p>
+          <p class="app-title fw-bolder">UNALmanaque</p>
         </div>
         <div class="col-11 d-flex flex-row">
           <div class="nav-item" :class="{ active: route === 'Home' }">
-            <router-link class="nav-link" to="/home">Home</router-link>
-          </div>
-          <div class="nav-item" :class="{ active: route === 'Profile' }">
-            <router-link class="nav-link" to="/profile">Profile</router-link>
-          </div>
-          <div class="nav-item" :class="{ active: route === 'Today_Activities' }">
-            <router-link class="nav-link" to="/today_activities">Today Activities</router-link>
-          </div>
-          <div class="nav-item" :class="{ active: route === 'Activities' }">
-            <router-link class="nav-link" to="/activities">Activities</router-link>
-          </div>
-          <div class="nav-item" :class="{ active: route === 'Activity' }">
-            <router-link class="nav-link" to="/activity">Activity</router-link>
-          </div>
-          <div class="nav-item" :class="{ active: route === 'Calendar' }">
-            <router-link class="nav-link" to="/calendar">Calendar</router-link>
+            <router-link class="nav-link" to="/home">Principal</router-link>
           </div>
           <div class="nav-item" :class="{ active: route === 'User_Information' }">
-            <router-link class="nav-link" to="/user_information">User Information</router-link>
+            <router-link class="nav-link" to="/user_information">Información de usuario</router-link>
+          </div>
+          <div class="nav-item" :class="{ active: route === 'Profile' }">
+            <router-link class="nav-link" to="/profile">Perfil</router-link>
+          </div>
+          <div class="nav-item" :class="{ active: route === 'Today_Activities' }">
+            <router-link class="nav-link" to="/today_activities">Para hoy</router-link>
+          </div>
+          <div class="nav-item" :class="{ active: route === 'Activities' }">
+            <router-link class="nav-link" to="/activities">Actividades</router-link>
+          </div>
+          <div class="nav-item" :class="{ active: route === 'Activity' }">
+            <router-link class="nav-link" to="/activity">Crear Actividad</router-link>
+          </div>
+          <div class="nav-item" :class="{ active: route === 'Calendar' }">
+            <router-link class="nav-link" to="/calendar">Calendario</router-link>
           </div>
           <div class="nav-item" :class="{ active: route === 'Stats' }">
-            <router-link class="nav-link" to="/stats">Stats</router-link>
+            <router-link class="nav-link" to="/stats">Estadisticas</router-link>
           </div>
           <div class="nav-item logout">
-            <a class="nav-link" @click="logout">Logout</a>
+            <a class="nav-link" @click="logout">Cerrar sesión</a>
           </div>
         </div>
       </div>

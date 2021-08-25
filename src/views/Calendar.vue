@@ -1,26 +1,24 @@
 <template>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <div class="text-center section">
-    <h2 class="h2">My Calendar</h2>
-    <p class="text-lg font-medium text-gray-600 mb-6">
-      Activities Calendar
-    </p>
+    <h1>Calendario de actividades</h1>
     <v-calendar
       v-if="!loading"
-      class="custom-calendar max-w-full"
+      class="custom-calendar max-w-full bg-gray-50"
       :masks="masks"
       :attributes="attributes"
       disable-page-swipe
       is-expanded
     >
       <template v-slot:day-content="{ day, attributes }">
-        <div class="flex flex-col h-full z-10 overflow-hidden">
-          <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
+        <div class="flex flex-col h-full z-10 overflow-hidden bg-gray-200 border-2 border-blue-50">
+          <span class="day-label font-medium text-3xl text-gray-300 bg-gray-600 border-2 border-gray-200 ">{{ day.day }}</span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
               v-for="(attr, index) in attributes"
               :id="attr.customData.id"
               :key="index"
-              class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
+              class="text-2xl text-white  leading-tight font-normal rounded-sm p-1 mt-0 mb-1"
               :style="`background: ${attr.customData.color};`"
               @click="handleActivityInfo"
             >
@@ -37,7 +35,7 @@
         <br />
             <div class="card-header">
                 <br />
-                <p class="text-2xl"> Detalles de Actividad </p>
+                <h4> Detalles de Actividad </h4>
                 </div>
                 <div class="card-body">
                   <p><b>Titulo:</b> {{ activity.title }}</p>
@@ -245,7 +243,7 @@ export default {
   --day-border-highlight: 1px solid #b8c2cc;
   --day-width: 90px;
   --day-height: 90px;
-  --weekday-bg: #f8fafc;
+  --weekday-bg: #b4b4b4;
   --weekday-border: 1px solid #eaeaea;
   border-radius: 0;
   width: 100%;
@@ -284,6 +282,10 @@ export default {
   }
   & .vc-day-dots {
     margin-bottom: 5px;
+  }
+  .text-xs {
+    font-size: 4px;
+    line-height: 1rem;
   }
 }
 </style>
