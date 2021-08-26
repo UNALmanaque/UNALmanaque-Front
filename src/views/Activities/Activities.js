@@ -2,6 +2,7 @@ import axios from 'axios';
 import { mapActions, mapGetters } from 'vuex';
 import firebase from 'firebase';
 
+
 export default {
   data() {
     return {
